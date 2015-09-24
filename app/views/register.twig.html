@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+ 
+    <title>Login</title>
+
+{{ HTML::style('styles/bootstrap.css')}}
+{{ HTML::style('styles/style.css') }}
+	
+  </head>
+ 
+
+  <body>
+
+    <div class="navbar navbar-fixed-top">
+        <div class="navbar-inner">
+            <div class="nn--container">
+                <ul class="nav"> 
+
+<li>{{ HTML::link('/', 'Domov') }}</li> 
+<li>{{ HTML::link('/about', 'O nas') }}</li> 
+<li>{{ HTML::link('/login', 'Prijava') }}</li> 
+<li>{{ HTML::link('/logout', 'Odjava') }}</li> 
+<li>{{ HTML::link('/register', 'Registracija') }}</li>  
+
+@if (Auth::check())
+<li>{{ HTML::link('#', Auth::user()->username) }}</li>  
+@endif 
+               </ul>  
+            </div>
+        </div>
+    </div> 
+
+@if ($message = Session::get('success'))
+	<div class="alert alert-success alert-block">
+		<button type="button" class="close" data-dismiss="alert">&times;</button>
+		<h4>Success</h4>
+		{{{ $message }}}
+	</div>
+@endif
+
+
+			
+	
+<div class="container">
+ 
+ 
+<h2> Registracija </h2>
+
+
+{{ Form::open() }}
+
+<div>
+E-mail: {{ Form::text('email') }}
+</div>
+
+<div>
+Uporabniško ime: {{ Form::text('username') }}
+</div>
+
+<div>
+Geslo: {{ Form::password('password') }}
+</div>
+
+<div>
+ moški/ženska/par
+</div>
+
+<div>
+(status) poročen| imam punco, fanta| sem samski iščem| sem samski ne iščem
+</div>
+
+<div>
+(Datum rojstva)
+</div>
+
+<div>
+(Država)
+</div>
+
+<div>
+(Najbližje mesto)
+</div>
+
+<div>
+(Postna st.)
+</div>
+
+<div>
+(kratkotrajno razmerje|dolgotrajno razmerje|poroka|prijateljstvo|partner za aktivnosti(sport, ples..)|dopisovanje)
+</div>
+
+<div>
+(njim | njo | vec osebami)
+</div>
+
+{{ Form::close() }}
+
+
+</div>
+
+
+  </body>
+</html>

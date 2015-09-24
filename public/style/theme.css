@@ -1,0 +1,38 @@
+body {
+  padding: 10px;
+  padding-top: 70px;
+  padding-bottom: 30px;
+}
+
+.theme-dropdown .dropdown-menu {
+  position: static;
+  display: block;
+  margin-bottom: 20px;
+}
+
+.theme-showcase > p > .btn {
+  margin: 5px 0;
+}
+
+/* --  TK  -- */
+
+.info {
+
+	background-color: #eee;
+	border: 1px SOLID #bbb;
+	padding: 4px;
+	margin-bottom: 4px;
+}
+
+.debugTree {
+
+}
+
+.debugTree TD { padding: 2px; }
+
+/* temp, for debugging */
+
+u { 
+  background-color: yellow;
+  padding: 0 4px;
+}

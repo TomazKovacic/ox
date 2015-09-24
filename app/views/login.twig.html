@@ -1,0 +1,31 @@
+{% extends "layout.twig.html" %}
+
+
+{% block content %}
+
+
+
+<form action="/login" class="form-signup" method="POST" />
+
+<h2> Prijava </h2>
+
+
+<div>
+<span id="errors-username"></span>
+<input type="username" name="username" class="input-block-level" placeholder="Uporabniško ime:" />
+
+</div>
+
+<div>
+<span id="errors-password"></span>
+
+<input type="password" name="password" class="input-block-level" placeholder="Geslo" />
+</div>
+
+<div>
+<input type="submit", value="Potrdi" class="btn btn-large btn-primary btn-block" />
+</div>
+
+</form>
+
+{% endblock %}
