@@ -11,7 +11,9 @@ This is initial version of my PHP microframework
 
 ### Just a few notes:
 
-- no database support yet
-- it is in early stage, project archtacture may be changed
+- experimental database support
+- it is in early stage, project architrcture may be changed
 - just started to use git and github, struggling at the moment
+
+See wiki
 
