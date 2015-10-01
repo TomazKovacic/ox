@@ -28,7 +28,7 @@
 
    //POST
 
-  Route::post('save', 'saveController@index');   
+  Route::post('login', 'loginController@process');   
    
 
 

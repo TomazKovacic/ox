@@ -31,14 +31,12 @@ class RouteCollection {
 
     //print 'RouteCollection::match() Test: Request object: <br>';
     //print_r2_button('Rq'); print_r2( $request );
+    //print 'Method: ' . $request->getMethod() . '<br>';
 
-    $routes = $this->get('GET');  //array, vrni vse route dane metode
+    $routes = $this->get( $request->getMethod() );  //array, vrni vse route dane metode
 
-    $route = $this->check( $request );
+    $route = $this->check( $request, $routes );
 
-    //print 'RouteCollection::match() TODO: preveri vse route, katera paše v $request <br>';
-    //print 'RouteCollection::match() TODO: vrni rout-o ali null če ne najde <br>';
-    //print '<br>';
 
     return $route;
 
@@ -60,7 +58,7 @@ class RouteCollection {
     return $picked_routes;
   }
 
-  public function check( \ox\framework\Request $request ) {
+  public function check( \ox\framework\Request $request, array $routes ) {
 
 
     //print '[ASC 5]  RouteCollection::check() <br>';
@@ -78,8 +76,9 @@ class RouteCollection {
        $pathinfo =  substr($pathinfo, 1);
     }
 
-     if( is_array($this->routes) && (count($this->routes)>0) ) {
-      foreach($this->routes as $rt) {
+
+     if( is_array($routes) && (count($routes)>0) ) {
+      foreach($routes as $rt) {
           //print '5: Compare rt[path]: ' . $rt['path'] . ' vs $pathinfo: ' . $pathinfo . '<br>';
           if($rt['path'] ==  $pathinfo) {
             //print '** Route found: ' . $pathinfo . '<br>';

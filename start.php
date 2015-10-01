@@ -10,8 +10,26 @@
 
 //print_r2( spl_autoload_functions() );
 
+
   $config = array();
   $config['paths'] = require_once ROOT_DIR . '/app/paths.php';
+
+  // check if database.php, if not, stop, inform about database.sample.php
+  if( !file_exists( ROOT_DIR . '/app/config/database.php' )) { print 'copy app/config/database.php to app/config/database.php and edit it.'; exit(); } 
+
+  $config['database'] = require_once ROOT_DIR . '/app/config/database.php';
+
+
+  $app = new ox\framework\Application();
+
+  $app->setConfiguration($config);
+
+//print 'Exit QQ in line ' . __LINE__ . '<br>'; exit();
+
+  use ox\Facades\Facade;
+
+  Facade::init();
+  Facade::setApplication($app);
 
   $aliases = array(
       //'App'     => 'ox\Facades\App',
@@ -28,19 +46,15 @@
       'View'    => 'ox\Facades\View'
   );
 
+
   foreach($aliases as $alias => $original) {
 
     //print('alias: ' . $original . ' * ' . $alias . '<br>');
     class_alias( $original, $alias );
   }
 
-  $app = new ox\framework\Application();
+  $app->registerCoreContainerAliases();
 
-
-  use ox\Facades\Facade;
-
-  Facade::init();
-  Facade::setApplication($app);
 
   require ROOT_DIR . '/app/routes.php';
 

@@ -10,4 +10,11 @@ class loginController extends baseController {
 		return View::make('login');
   }
 
+
+  function process() {
+
+  	print 'loginController::process()';
+  	exit();
+  }
+
 }

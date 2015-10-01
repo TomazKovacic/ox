@@ -40,12 +40,7 @@
 
       $this->config = $config;
 
-      //$this->dispatcher = null;
-
-      //print ' app __construct <br>';
-      //print '[D]:ln: '. __LINE__ .' @ ' . __CLASS__ . '::' . __FUNCTION__ .'()<br>';
-
-       $this->registerCoreContainerAliases();
+      
 
     }
 
@@ -79,35 +74,17 @@
     public function offsetUnset($offset) {
         unset($this->bindings[$offset]);
     } 
+
+
     // -----------------------------------------------------
 
-    private function resolve() {
-
-      $result = null;
-      $request_uri    = $this->request->server['REQUEST_URI'];
-      $request_method = $this->request->server['REQUEST_METHOD'];
-
-
-      $this->addLog( array('[resolve]: START ------------------------.',   'file' => __FILE__, 'line' =>  __LINE__, 'class' => __CLASS__, 'function' => __FUNCTION__ ) );
-
-
-      foreach($this->router->routes as $routeIndex => $route) {
-
-          if(($request_method ==  $route['method']) && ($request_uri == $route['path'])) {
-
-            $result = $route['destination'];
-            break;
-          }
-      }
-
-      if( $result === null) {
-      } else {
-      }
-
-      return $result;
+    public function getConfiguration() {
+      return $this->config;
     }
 
-
+    public function setConfiguration($config) {
+      $this->config = $config;
+    }
 
     // -----------------------------------------------------
 
@@ -117,13 +94,12 @@
 
         'Auth'    => 'ox\Auth\AuthManager',
         'DB'      => 'ox\Database\DatabaseManager',
-        'Form'    => 'ox\Html\FormBuilder',
-        'HTML'    => 'ox\Html\HtmlBuilder',
+        //'Form'    => 'ox\Html\FormBuilder',
+        //'HTML'    => 'ox\Html\HtmlBuilder',
         //'Input'   => 'ox\Classes\Input',
         //'Lang'    => 'ox\Classes\Lang',
         //'Request' => 'ox\Classes\Request',
         'Route'   => '\ox\Routing\Route',
-        //'Router'   => '\ox\Routing\Router', ????
         //'Session' => 'ox\Classes\Session',
         //'URL'     => 'ox\Classes\URL',
         'View'    => 'ox\View\View'
@@ -246,7 +222,8 @@
       
       
 
-      //print '<br><br>App:'; print '<pre>'; print_r($this); print '</pre>';  
+      //
+      print '<br><br>'; print_r2_adv($this); 
   		  		
   	}
 

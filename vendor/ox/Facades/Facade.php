@@ -34,6 +34,7 @@
 		}
 
 		public static function getApplication() {
+			//print '<br><br>****  Facade::getApplication (static)  **** <br><br>';
 			return static::$app;
 		}
 		

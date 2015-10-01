@@ -1,9 +1,28 @@
 <?php namespace ox\framework;
 
+/*
+* (c) Fabien Potencier <fabien@symfony.com>
+*/
+
 class Request {
+
+  const HEADER_CLIENT_IP    = 'client_ip';
+  const HEADER_CLIENT_HOST  = 'client_host';
+  const HEADER_CLIENT_PROTO = 'client_proto';
+  const HEADER_CLIENT_PORT  = 'client_port';
 
   protected static $trustedProxies = array();
   protected static $trustedHostPatterns = array();
+  protected static $trustedHosts = array();
+
+  protected static $trustedHeaders = array(
+    self::HEADER_CLIENT_IP    => 'X_FORWARDED_FOR',
+    self::HEADER_CLIENT_HOST  => 'X_FORWARDED_HOST',
+    self::HEADER_CLIENT_PROTO => 'X_FORWARDED_PROTO',
+    self::HEADER_CLIENT_PORT  => 'X_FORWARDED_PORT',
+  );
+
+  protected static $httpMethodParameterOverride = false;
 
   public $request;        // _GET
   public $query;          // _POST

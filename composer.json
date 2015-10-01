@@ -22,7 +22,10 @@
 		 "psr-0" : {
             "Twig_" : "vendor/Twig/lib/"
         },
-		"files": ["app/helper_functions.php"]
+		"files": [
+			"app/helper_functions.php",
+			"vendor/ox/framework/helpers.php"
+			]
 
 	}
 }
