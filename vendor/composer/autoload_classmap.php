@@ -7,6 +7,11 @@ $baseDir = dirname($vendorDir);
 
 return array(
     'SessionHandlerInterface' => $vendorDir . '/symfony/http-foundation/Resources/stubs/SessionHandlerInterface.php',
+    'aboutController' => $baseDir . '/app/controllers/aboutController.php',
     'baseController' => $baseDir . '/app/controllers/baseController.php',
+    'baseModel' => $baseDir . '/app/models/baseModel.php',
     'homeController' => $baseDir . '/app/controllers/homeController.php',
+    'homeModel' => $baseDir . '/app/models/homeModel.php',
+    'loginController' => $baseDir . '/app/controllers/loginController.php',
+    'logoutController' => $baseDir . '/app/controllers/logoutController.php',
 );
