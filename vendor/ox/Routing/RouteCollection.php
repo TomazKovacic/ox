@@ -20,11 +20,11 @@ class RouteCollection {
   }
 
 
-  public function match( \ox\framework\Request $request ) {
+  public function match( \Symfony\Component\HttpFoundation\Request $request ) {
 
     //print '[ASC3] RouteCollection::match() <br><br>';
 
-    //print '[ASC3] &gt; RouteCollection::match() Test: Method is: ' . $request->getMethod() . '<br>'; 
+    //print '[ASC3] &gt; RouteCollection::match() Test: Method is: ' . $request->getMethod() . '<br>';
     //print '[ASC3] &gt; RouteCollection::match() Test: All routes in collection: <br>';
 
     //print_r2_button('Routes'); print_r2( $this->routes);
@@ -52,13 +52,13 @@ class RouteCollection {
           if($rt['method'] == $method) {
             $picked_routes[] = $rt;
           }
-      } 
+      }
     }
 
     return $picked_routes;
   }
 
-  public function check( \ox\framework\Request $request, array $routes ) {
+  public function check( \Symfony\Component\HttpFoundation\Request $request, array $routes ) {
 
 
     //print '[ASC 5]  RouteCollection::check() <br>';
@@ -84,19 +84,18 @@ class RouteCollection {
             //print '** Route found: ' . $pathinfo . '<br>';
             return $rt;
           }
-      } 
+      }
     } else {
-      
+
       //print 'RouteCollection::check() Route not found(1): ' . $pathinfo . '<br>';
       //return reset($this->routes);
 
       return false;
-    }     
+    }
 
 
 
-    return false;    
+    return false;
   }
 
 }
-

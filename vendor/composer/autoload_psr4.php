@@ -7,4 +7,5 @@ $baseDir = dirname($vendorDir);
 
 return array(
     'ox\\' => array($vendorDir . '/ox'),
+    'Symfony\\Component\\HttpFoundation\\' => array($vendorDir . '/symfony/http-foundation'),
 );

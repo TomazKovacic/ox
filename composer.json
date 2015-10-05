@@ -1,31 +1,33 @@
 {
-	"name": "ox/ox",
-	"type": "framework",
-	"description": "OX Framework",
-	 "authors": [
-		{
-			"name": "Tomaž Kovačič",
-			"email": "tomazkovacic2@gmail.com",
-			"homepage": "http://pisarna.svarog.si/tomaz/",
-			"role": "Lead Developer"
-		}
-	],
-	"license": "MIT",
-	"autoload": {
-		"classmap": [
-			"app/controllers",
-			"app/models"
-			],
-		"psr-4": {
-			"ox\\" : "vendor/ox"
-		},
-		 "psr-0" : {
+    "name": "ox/ox",
+    "type": "framework",
+    "description": "OX Framework",
+    "authors": [
+    {
+        "name": "Tomaž Kovačič",
+        "email": "tomazkovacic2@gmail.com",
+        "homepage": "http://pisarna.svarog.si/tomaz/",
+        "role": "Lead Developer"
+    }
+    ],
+    "license": "MIT",
+    "autoload": {
+        "classmap": [
+            "app/controllers",
+            "app/models"
+        ],
+        "psr-4": {
+            "ox\\" : "vendor/ox"
+        },
+        "psr-0" : {
             "Twig_" : "vendor/Twig/lib/"
         },
-		"files": [
-			"app/helper_functions.php",
-			"vendor/ox/framework/helpers.php"
-			]
-
-	}
+        "files": [
+            "app/helper_functions.php",
+            "vendor/ox/framework/helpers.php"
+        ]
+    	},
+    	"require": {
+    	    	"symfony/http-foundation": "^2.7"
+    	}
 }

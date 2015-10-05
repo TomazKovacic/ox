@@ -6,11 +6,7 @@ $vendorDir = dirname(dirname(__FILE__));
 $baseDir = dirname($vendorDir);
 
 return array(
-    'aboutController' => $baseDir . '/app/controllers/aboutController.php',
+    'SessionHandlerInterface' => $vendorDir . '/symfony/http-foundation/Resources/stubs/SessionHandlerInterface.php',
     'baseController' => $baseDir . '/app/controllers/baseController.php',
-    'baseModel' => $baseDir . '/app/models/baseModel.php',
     'homeController' => $baseDir . '/app/controllers/homeController.php',
-    'homeModel' => $baseDir . '/app/models/homeModel.php',
-    'loginController' => $baseDir . '/app/controllers/loginController.php',
-    'logoutController' => $baseDir . '/app/controllers/logoutController.php',
 );

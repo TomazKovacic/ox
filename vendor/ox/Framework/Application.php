@@ -1,47 +1,24 @@
 <?php namespace ox\framework;
 
-
-  //use ox\framework\RouteCollection;
-
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 
   class Application implements \ArrayAccess {
 
-
     public $version = '0.1b';
     public $bindings = array();
-
     public $request;
-
     public $config = array();
-
-    public $logs = array();
-    public $errors = array();
-
-    public $content = array();
-    public $data = array();
-
-    public $output = '';
-
-    public $renderer;
 
     public $aliases = array();
 
-
-  
     // -----------------------------------------------------
 
     public function __construct() {
 
-      global $config;
-
       $this->router    = new \ox\routing\Router();
       $this->request   = new Request();
       $this->response  = new Response();
-
-      $this->config = $config;
-
-      
-
     }
 
     // -----------------------------------------------------
@@ -57,24 +34,23 @@
     }
 
     // -----------------------------------------------------
-    // ArrayAccess mandarory
+    // ArrayAccess, mandarory
 
     public function offsetExists($offset) {
         return array_key_exists($offset, $this->bindings);
     }
- 
+
     public function offsetGet($offset) {
         return $this->bindings[$offset];
     }
- 
+
     public function offsetSet($offset, $value) {
-        $this->bindings[$offset] = $value;   
+        $this->bindings[$offset] = $value;
     }
- 
+
     public function offsetUnset($offset) {
         unset($this->bindings[$offset]);
-    } 
-
+    }
 
     // -----------------------------------------------------
 
@@ -117,115 +93,41 @@
 
     private function dispatch(Request $request) {
 
-
-      //print_r2($request);
-      $d = $this->router->dispatch($request); //returrns Response object
-
-      //return new Response('aaaaaaa');
-      return $d;
+      return $this->router->dispatch($request); //returrns Response object
     }
 
-    // -----------------------------------------------------
-
-    public function render() {
-
-		//@todo rewrite
-
-      //$this->output = $this->renderer->render( $this->content, $this->data );
-
-    }
-
-
-    // -----------------------------------------------------
-
-    public function output() {
-
-        print $this->output;
-    }
-
-    // -----------------------------------------------------
-
-    public function addLog( $logArray ) {
-      $this->logs[] = $logArray;
-    }
-
-    // -----------------------------------------------------
-
-    public function getLogs() {
-      return $this->logs;
-    }
-    // -----------------------------------------------------
-
-    public function addError( $errorArray ) {
-      $this->errors[] = $errorArray;
-    }
-
-    // -----------------------------------------------------
-
-    public function getErrors() {
-      return $this->errors;
-    }
     // -----------------------------------------------------
 
     /**
     * handle je previdan za vklučutev middlaware dodatkov, nato v dispatch
     */
-	
+
 	  public function handle(Request $request) {
-				
-
-      //@todo middleware mumbo TK
-
 
       return $response = $this->dispatch($request);
-
-
   	}
-  	
-  	// -----------------------------------------------------
-  	
-  	public function run(Request $request = null) {
 
-      //print '[ASC 1] Application::run()<br>';
+    // -----------------------------------------------------
 
-  		if (null === $request) {
+    public function run(Request $request = null) {
+
+      if (null === $request) {
               $request = Request::createFromGlobals();
-  			
-  			//print '--debug test request :<br>';  print('<pre>');print_r($request);print('</pre>');
       }
-  		
-  		// see: https://github.com/alexbilbie/Proton/blob/master/src/Application.php
 
-      // see: http://symfony.com/doc/current/create_framework/index.html
-
-
-
-
-       		
-  		$response = $this->handle($request);
-
-      //debug_table( debug_backtrace(), __FILE__, __LINE__ );
-
-      //if(GDEBUG === true) print '<br><br>[DEC 1] Application::run() Response:'; print '<pre>'; print_r($response); print '</pre>';
+      $response = $this->handle($request);
 
       if( 200 ==  $response->getStatusCode() ) {
-
-  		  $response->send();
+        $response->send();
 
       } else {
           $response->sendHeaders();
-          exit();
-          //print 'Status: ' . $response->getStatusCode() . '<br>';  
+          //exit();
+          print 'Status: ' . $response->getStatusCode() . '<br>';
       }
 
-
-      
-      
-
-      //
-      print '<br><br>'; print_r2_adv($this); 
-  		  		
-  	}
-
+      print '<br><br>:'; print_r2_adv($this);
+    }
+    // -----------------------------------------------------
 
   } //class end.

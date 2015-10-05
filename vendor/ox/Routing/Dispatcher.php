@@ -1,13 +1,13 @@
 <?php namespace ox\routing;
 
 class Dispatcher {
-	
+
   public $status = -1; //undefined
   public $moduleName;
   public $result;
 
   public function __construct() {
-	
+
 	// ..new implementation, maybe cycle app:events, like laravel?
 
   }
@@ -39,13 +39,13 @@ class Dispatcher {
 
     try {
       $controller = new $controllerClass();
-    } 
+    }
     catch (Exception $e) {
       print 'Exception: '.  $e->getMessage(). "<br>\n";
     }
 
     try {
-      $result = $controller->$controllerAction(); 
+      $result = $controller->$controllerAction();
     }
     catch (Exception $e) {
       print 'Exception: '.  $e->getMessage(). "<br>\n";
@@ -54,7 +54,7 @@ class Dispatcher {
 
 
     if(is_string($result)) {
-    	return new \ox\Framework\Response( $result );
+    	return new \Symfony\Component\HttpFoundation\Response( $result );
 
     } else {
     	print '.... response is not string type ... <br>'; //error
@@ -62,8 +62,8 @@ class Dispatcher {
     	//print 'Exception: '.  $e->getMessage(). "<br>\n";
     }
 
-    
-  }	
+
+  }
 
 
 }

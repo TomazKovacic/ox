@@ -10,15 +10,14 @@ class Router {
     // -----------------------------------------------------
 
     public function __construct() {
-    
-    	//print 'Router :: __construct() ... <br><br>';	
+
+    	//print 'Router :: __construct() ... <br><br>';
     	$this->routes = new RouteCollection;
       $this->dispatcher = new Dispatcher;
     }
 
 
-
-    public function dispatch( \ox\framework\Request $request ) {
+    public function dispatch( \Symfony\Component\HttpFoundation\Request $request ) {
 
 	  //print '[ASC 2] Router::dispatch()<br>';
 
@@ -39,7 +38,7 @@ class Router {
           if (false === $this->current ) {
 
             //return status 404, not found
-            return new \ox\Framework\Response('Error: route not found', 404);
+            return new \Symfony\Component\HttpFoundation\Response('Error: route not found', 404);
           }
 
       }
@@ -50,14 +49,14 @@ class Router {
       //print_r2($rs);
 
       return $rs;
-      
-  }  
 
-   
+  }
+
+
 
 
   public function addRoute($method, $path, $destination, $options = null ) {
-  
+
     //print 'Router::addRoute('. $method .', '. $path .', '. $destination . ') ... <br>';
 
     $this->routes->add($method, $path, $destination, $options);
