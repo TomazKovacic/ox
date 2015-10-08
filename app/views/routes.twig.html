@@ -1,0 +1,44 @@
+{% extends "layouts/main.twig.html" %}
+
+{% block title %}{{ title }}{% endblock %}
+
+{% block content %}
+
+	<h1>Routes</h1>
+	  
+	<b> id: </b>
+  {{ id }} <br>
+  <b> name: </b>
+  {{ name }}  <br>
+  <br>
+
+  <pre>
+
+  <a href="/">Route::get('/', 'homeController@index'); </a>
+
+
+  <a href="/about">Route::get('about',  'aboutController@index'); </a>
+  <a href="/login">Route::get('login',  'loginController@index'); </a>
+  <a href="/logout">Route::get('logout', 'logoutController@index'); </a>
+
+  <a href="#">Route::post('login', 'loginController@process'); </a>
+  
+  <a href="/routes">Route::get('routes', 'routesController@index'); </a>
+
+   <a href="/routes/123">Route::get('routes/123', 'routesController@index'); </a>
+   <a href="/routes/page/report">Route::get('routes/page/report', 'routesController@named_page'); </a>
+   <a href="/routes/page/third/id/456">Route::get('routes/page/third/id/456', 'routesController@third_page'); </a>
+
+  <a href="/database">Route::get('database', 'databaseController@index'); </a>
+  <a href="/sessions">Route::get('sessions', 'sessionsController@index'); </a>
+
+  <a href="/testarray">Route::get('testarray', array( 'as' => 'testing', 'uses' => 'sessionController@index') ); </a>
+
+
+  <a href="/fntest">Route::get('fntest', function() { return 'this is function test'; } ); </a>
+
+  </pre>
+
+
+
+{% endblock %}

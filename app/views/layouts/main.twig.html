@@ -1,6 +1,6 @@
 <html>
 <head>
-  <title>OX 2</title>
+  <title>OX 2:{% block title %}{% endblock %}</title>
   
   <link rel="stylesheet" type="text/css" href="/style/bootstrap.css">
   <link rel="stylesheet" type="text/css" href="/style/style.css" />
@@ -15,10 +15,16 @@
                 <ul class="nav"> 
 
 				<li><a href="/">Domov</a></li> 
-				<li><a href="/about">O nas</a></li> 
-				<li><a href="/login">Prijava</a></li> 
-				<li><a href="/logout">Odjava</a></li> 
-				<li><a href="/registration">Registracija</a></li>  
+				<li><a href="/about">About OX</a></li> 
+
+        <li><a href="/routes">Routes</a></li> 
+        <li><a href="/database">Database</a></li>
+        <li><a href="/sessions">Sessions</a></li>
+
+
+        <li><a href="/login">Login</a></li> 
+				<li><a href="/logout">Logout</a></li> 
+				<li><a href="/registration">Registration</a></li>  
 
                </ul>  
             </div>
@@ -31,7 +37,9 @@
 
 	</div>
 
-footer
+<footer class="footer">
+  <div>OX Framework.</div>
+</footer>
 
 
 </body>

@@ -1,27 +1,49 @@
-{% extends "layout.twig.html" %}
+{% extends "layouts/main.twig.html" %}
 
 
 {% block content %}
 
-		<h1>OX Framework; Predstavitev</h1>
+		<h1>OX Framework</h1>
+
+		This is initial version of my PHP microframework
+
+		<!--
+		<h2>Introduction</h2>
 	  
 		<p><strong>Pellentesque habitant morbi tristique</strong> senectus et netus et malesuada fames ac turpis egestas. Vestibulum tortor quam, feugiat vitae, ultricies eget, tempor sit amet, ante. Donec eu libero sit amet quam egestas semper. <em>Aenean ultricies mi vitae est.</em> Mauris placerat eleifend leo. Quisque sit amet est et sapien ullamcorper pharetra. Vestibulum erat wisi, condimentum sed, <code>commodo vitae</code>, ornare sit amet, wisi. Aenean fermentum, elit eget tincidunt condimentum, eros ipsum rutrum orci, sagittis tempus lacus enim ac dui. <a href="#">Donec non enim</a> in turpis pulvinar facilisis. Ut felis.</p>
 
+		-->
 
-		<h2>PHP</h2>
+		<h2>Features:</h2>
 			   
-		<ol>
-		   <li>Lorem ipsum dolor sit amet, consectetuer adipiscing elit.</li>
-		   <li>Aliquam tincidunt mauris eu risus.</li>
-		</ol>
+		<ul>
+		   <li>MVC based framework</li>
+		   <li>mimics some Laravel 4 functionality</li>
+		   <li>Twig template is used</li>
+		</ul>
 
-		<blockquote><p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus magna. Cras in mi at felis aliquet congue. Ut a est eget ligula molestie gravida. Curabitur massa. Donec eleifend, libero at sagittis mollis, tellus est malesuada tellus, at luctus turpis elit sit amet quam. Vivamus pretium ornare est.</p></blockquote>
 
-		<h3>Header Level 3</h3>
+		<h2>Just a few notes:</h2>
+			   
+		<ul>
+		   <li>experimental database support</li>
+		   <li>it is in early stage, project architrcture may be changed</li>
+		   <li>just started to use git and github, struggling at the moment</li>
+		</ul>
+		
+
+		<h3>Links</h3>
 
 		<ul>
-		   <li>Lorem ipsum dolor sit amet, consectetuer adipiscing elit.</li>
-		   <li>Aliquam tincidunt mauris eu risus.</li>
+		   <li><a href="./about">About OX</a></li>
+		   <li><a href="./routes">Routes</a></li>
+		   <li><a href="./database">Database</a></li>
+		   <li><a href="./sessions">Sessions</a></li>
+
+		   <br>
+		   <li><a href="./login">Login</a></li>
+		   <li><a href="./logout">Logout</a></li>
+		   <li><a href="./registration">Registration</a></li>
 		</ul>
 
 {% endblock %}

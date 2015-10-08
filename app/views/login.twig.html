@@ -1,4 +1,4 @@
-{% extends "layout-min.twig.html" %}
+{% extends "layouts/mini.twig.html" %}
 
 {% block content %}
 
@@ -9,27 +9,30 @@
 
 <form role="form" action="/login" class="form-signup" method="POST" />
 
-<h2> Prijava </h2>
+<h2> Login form</h2>
 
 <div>
 <span id="errors-username"></span>
 
-Uporabniško ime:
-<input type="username" name="username" class="input-block-level" placeholder="Uporabniško ime:" />
+Username:
+<input type="username" name="username" class="input-block-level" placeholder="Username:" />
 
 </div>
 
 
 <div>
 <span id="errors-password"></span>
-Geslo:
-<input type="password" name="password" class="input-block-level" placeholder="Geslo" />
+Password:
+<input type="password" name="password" class="input-block-level" placeholder="Password:" />
 </div>
 
 &nbsp;
 <div>
 <input type="submit", value="Potrdi" class="btn btn-large btn-primary btn-block" />
 </div>
+
+<br><br>
+<a href="#forgot">Forgot password?</a> | <a href="#register">Register</a>
 
 </form>
 
