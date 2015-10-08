@@ -126,7 +126,7 @@ use Symfony\Component\HttpFoundation\Response;
           print 'Status: ' . $response->getStatusCode() . '<br>';
       }
 
-      print '<br><br>:'; print_r2_adv($this);
+      //print '<br><br>:'; print_r2_adv($this);
     }
     // -----------------------------------------------------
 

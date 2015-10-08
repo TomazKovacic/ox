@@ -6,22 +6,22 @@ class Route {
   private $method;
   private $path;
   private $destination;
-  private $options;
+  private $parameters;
 
-  static function get($path, $destination, $options = null) {
+  static function get($path, $destination, $parameters = null) {
 
 //print 'ox\Classes\route::get <br>';
 
-    route::addRoute('GET', $path, $destination, $options);
+    route::addRoute('GET', $path, $destination, $parameters);
   }
 
-  static function post($path, $destination, $options = null) {
+  static function post($path, $destination, $parameters = null) {
 
-    route::addRoute('POST', $path, $destination, $options);
+    route::addRoute('POST', $path, $destination, $parameters);
   }
 
 
-  static function addRoute($method, $path, $destination, $options) {
+  static function addRoute($method, $path, $destination, $parameters) {
 
     $debug = false;   //local debug switch
     //$debug = true;
@@ -38,7 +38,7 @@ class Route {
 
     global $app;
 
-    $app->router->addRoute($method, $path, $destination, $options);
+    $app->router->addRoute($method, $path, $destination, $parameters);
 
   }
 }

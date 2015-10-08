@@ -55,11 +55,11 @@ class Router {
 
 
 
-  public function addRoute($method, $path, $destination, $options = null ) {
+  public function addRoute($method, $path, $destination, $parameters = null ) {
 
     //print 'Router::addRoute('. $method .', '. $path .', '. $destination . ') ... <br>';
 
-    $this->routes->add($method, $path, $destination, $options);
+    $this->routes->add($method, $path, $destination, $parameters);
   }
 
 }

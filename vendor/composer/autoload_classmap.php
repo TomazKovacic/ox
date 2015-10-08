@@ -10,8 +10,11 @@ return array(
     'aboutController' => $baseDir . '/app/controllers/aboutController.php',
     'baseController' => $baseDir . '/app/controllers/baseController.php',
     'baseModel' => $baseDir . '/app/models/baseModel.php',
+    'databaseController' => $baseDir . '/app/controllers/databaseController.php',
     'homeController' => $baseDir . '/app/controllers/homeController.php',
     'homeModel' => $baseDir . '/app/models/homeModel.php',
     'loginController' => $baseDir . '/app/controllers/loginController.php',
     'logoutController' => $baseDir . '/app/controllers/logoutController.php',
+    'routesController' => $baseDir . '/app/controllers/routesController.php',
+    'sessionsController' => $baseDir . '/app/controllers/sessionsController.php',
 );

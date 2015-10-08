@@ -31,6 +31,29 @@
   Route::post('login', 'loginController@process');   
    
 
+  //routes
+  Route::get('routes', 'routesController@index');
+  Route::get('routes/{id}', 'routesController@single_page');
+  Route::get('routes/page/{name}', 'routesController@named_page');
+  Route::get('routes/page/{name}/id/{id}', 'routesController@third_page');
+
+  //optional parameters
+  // routes/page/{name?}  with ?
+
+  //database
+  Route::get('database', 'databaseController@index');
+
+  //session
+  Route::get('sessions', 'sessionsController@index');
+
+
+  Route::get('testarray', array( 'as' => 'testing', 'uses' => 'sessionController@index' ) );
+
+
+  Route::get('fntest', function() { return 'this is function test'; } );
+
+  //laravel compatimility
+  // Route::put, Route::delete, Route::match, Route::any, 
 
 	/*
 	* syntax for future

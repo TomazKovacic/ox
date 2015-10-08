@@ -22,13 +22,13 @@ class View {
 
   }
 
-  public function make($viewname) {
+  public function make( $viewname, $parameters = array() ) {
 
-    //print 'View::make('. $viewname .') <br>';
+    //print 'View::make('. $viewname .', ['. implode(', ', $parameters) .']) <br>';
 
     $filename = $viewname . $this->file_extension;
 
-    $this->content = $this->render($filename);
+    $this->content = $this->render($filename,  $parameters);
 
     return $this->getContent();
   }
@@ -44,7 +44,6 @@ class View {
     $twig = new \Twig_Environment($loader, array( 'cache' => false ) );
 
     $template = $twig->loadTemplate( $filename );
-    
     return $template->render( $data );
 
 

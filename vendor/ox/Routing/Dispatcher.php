@@ -2,8 +2,7 @@
 
 class Dispatcher {
 
-  public $status = -1; //undefined
-  public $moduleName;
+
   public $result;
 
   public function __construct() {
@@ -45,7 +44,29 @@ class Dispatcher {
     }
 
     try {
-      $result = $controller->$controllerAction();
+      //print 'Test Parameters:<br>';
+      //print_r2 ( $currentRoute['parameters'] );
+
+      $parameters = ($currentRoute['parameters'])? array_values($currentRoute['parameters']) : array();
+
+
+      //dumb code, but faster
+      switch (count($parameters)) {
+        case 0:
+          $result = $controller->$controllerAction();
+          break;
+        case 1:
+          $result = $controller->$controllerAction($parameters[0]);
+          break;
+        case 2:
+          $result = $controller->$controllerAction($parameters[0], $parameters[1]);
+          break;
+        case 3:
+          $result = $controller->$controllerAction($parameters[0], $parameters[1], $parameters[2]);
+          break;
+        default:
+          $result = call_user_func_array(array($controller, $controllerAction),$parameters);
+        }
     }
     catch (Exception $e) {
       print 'Exception: '.  $e->getMessage(). "<br>\n";
