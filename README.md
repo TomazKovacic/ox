@@ -14,7 +14,7 @@ This is initial version of my PHP microframework
 ### Just a few notes:
 
 - it is in early stage, project architrcture may be changed
-- 
+
 
 See wiki
 
