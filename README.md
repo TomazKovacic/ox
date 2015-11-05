@@ -8,12 +8,13 @@ This is initial version of my PHP microframework
 - MVC based framework
 - mimics some Laravel 4 functionality
 - Twig template is used
+- database support with DB calls
+- Authentication using JWT (Javascript Web token)
 
 ### Just a few notes:
 
-- experimental database support
 - it is in early stage, project architrcture may be changed
-- just started to use git and github, struggling at the moment
+- 
 
 See wiki
 
