@@ -23,6 +23,9 @@
    //Route::post('/home', 'homeController@save');
 
    Route::get('about',  'aboutController@index');
+
+   Route::get('user',  'userController@index');
+
    Route::get('login',  'loginController@index');
    Route::get('logout', 'logoutController@index');
 
@@ -45,6 +48,7 @@
 
   //session
   Route::get('sessions', 'sessionsController@index');
+  Route::post('sessions', 'sessionsController@process');
 
 
   Route::get('testarray', array( 'as' => 'testing', 'uses' => 'sessionController@index' ) );

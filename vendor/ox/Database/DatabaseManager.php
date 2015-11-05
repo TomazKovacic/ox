@@ -9,6 +9,8 @@ class DatabaseManager  {
   private $connections = array();
   private $defaultName;
 
+  private $debug = false;
+
   function __construct() {
 
 
@@ -56,6 +58,9 @@ class DatabaseManager  {
   }
 
 
+  public function getPdo() {
+    return $this->connection();
+  }
 
   public function getDefaultConnectionName()
   {
@@ -82,20 +87,20 @@ class DatabaseManager  {
 
 
   public function insert($query, $bindings = array()) {
-    print 'X&gt; DB: insert() <br>';
+    if($this->debug === true) { print 'X&gt; DB: insert() <br>'; }
 
     return $this->statement($query, $bindings); 
   }
 
   public function update($query, $bindings = array()) {
-    print 'X&gt; DB: update() <br>';
+    if($this->debug === true) { print 'X&gt; DB: update() <br>'; }
 
     return $this->affectingStatement($query, $bindings); 
   }
 
 
   public function delete($query, $bindings = array()) {
-    print 'X&gt; DB: delete() <br>';
+    if($this->debug === true) { print 'X&gt; DB: delete() <br>'; }
 
     return $this->affectingStatement($query, $bindings);
   }
@@ -122,24 +127,24 @@ class DatabaseManager  {
 
 
   public function listen() {
-    print 'X&gt; DB: listen() <br>';
+    if($this->debug === true) { print 'X&gt; DB: listen() <br>'; }
     //no support
   }
 
   public function transaction() {
-    print 'X&gt; DB: transaction() <br>';
+    if($this->debug === true) { print 'X&gt; DB: transaction() <br>'; }
   }
 
   public function beginTransaction() {
-    print 'X&gt; DB: beginTransaction() <br>';
+    if($this->debug === true) { print 'X&gt; DB: beginTransaction() <br>'; }
   }
 
   public function rollback() {
-    print 'X&gt; DB: rollback() <br>';
+    if($this->debug === true) { print 'X&gt; DB: rollback() <br>'; }
   }
 
   public function commit() {
-    print 'X&gt; DB: commit() <br>';
+    if($this->debug === true) { print 'X&gt; DB: commit() <br>'; }
   }
 
 }//class end

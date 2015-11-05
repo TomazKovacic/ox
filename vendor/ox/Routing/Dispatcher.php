@@ -77,8 +77,22 @@ class Dispatcher {
     if(is_string($result)) {
     	return new \Symfony\Component\HttpFoundation\Response( $result );
 
+    } elseif( (get_class($result)                     == 'Symfony\Component\HttpFoundation\Response') ||
+              (get_parent_class( get_class($result))  == 'Symfony\Component\HttpFoundation\Response') ) {
+
+      //print 'Dispatcher::dispatch() # resuilt is type '. get_class($result) . '<br>';
+      //print_r2($result);
+
+      return $result;
+
+
     } else {
-    	print '.... response is not string type ... <br>'; //error
+       //error
+      print 'dispatch::dispatch() Error<br>';
+    	print '.... response is not string type ... <br>';
+      print 'object type is ' . get_class($result) . ' <br>';
+
+
 
     	//print 'Exception: '.  $e->getMessage(). "<br>\n";
     }

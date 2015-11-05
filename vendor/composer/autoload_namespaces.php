@@ -7,4 +7,6 @@ $baseDir = dirname($vendorDir);
 
 return array(
     'Twig_' => array($vendorDir . '/Twig/lib'),
+    'Commando' => array($vendorDir . '/nategood/commando/src'),
+    'Colors' => array($vendorDir . '/kevinlebrun/colors.php/lib'),
 );

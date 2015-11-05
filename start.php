@@ -24,17 +24,18 @@
 
   $aliases = array(
       //'App'     => 'ox\Facades\App',
-      'Auth'    => 'ox\Facades\Auth',
-      'DB'      => 'ox\Facades\DB',
-      'Form'    => 'ox\Facades\Form',
-      'HTML'    => 'ox\Facades\HTML',
-      'Input'   => 'ox\Facades\Input',
-      'Lang'    => 'ox\Facades\Lang',
-      'Request' => 'ox\Facades\Request',
-      'Route'   => 'ox\Facades\Route',
-      'Session' => 'ox\Facades\Session',
-      'URL'     => 'ox\Facades\URL',
-      'View'    => 'ox\Facades\View'
+      'Auth'     => 'ox\Facades\Auth',
+      'DB'       => 'ox\Facades\DB',
+      'Form'     => 'ox\Facades\Form',
+      'HTML'     => 'ox\Facades\HTML',
+      'Input'    => 'ox\Facades\Input',
+      'Lang'     => 'ox\Facades\Lang',
+      'Redirect' => 'ox\Facades\Redirect',
+      'Request'  => 'ox\Facades\Request',
+      'Route'    => 'ox\Facades\Route',
+      'Session'  => 'ox\Facades\Session',
+      'URL'      => 'ox\Facades\URL',
+      'View'     => 'ox\Facades\View'
   );
 
   foreach($aliases as $alias => $original) {

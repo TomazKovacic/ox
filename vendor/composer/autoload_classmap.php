@@ -17,4 +17,5 @@ return array(
     'logoutController' => $baseDir . '/app/controllers/logoutController.php',
     'routesController' => $baseDir . '/app/controllers/routesController.php',
     'sessionsController' => $baseDir . '/app/controllers/sessionsController.php',
+    'userController' => $baseDir . '/app/controllers/userController.php',
 );

@@ -4,6 +4,6 @@ namespace ox\Facades;
 
 class Auth extends Facade {
 
-	protected static function getAccessor() { return 'auth'; }
+	protected static function getAccessor() { return 'Auth'; }
 
 }

@@ -1,11 +1,50 @@
 {% extends "layouts/main.twig.html" %}
 
-
+{% block title %}Session{% endblock %}
 {% block content %}
 
-	<h1>Sessions</h1>
+	<h1>Session and cookie variables</h1>
 	  
 	  
 	<p><strong>Pellentesque habitant morbi tristique</strong> senectus et netus et malesuada fames ac turpis egestas. Vestibulum tortor quam, feugiat vitae, ultricies eget, tempor sit amet, ante. Donec eu libero sit amet quam egestas semper. <em>Aenean ultricies mi vitae est.</em> Mauris placerat eleifend leo. Quisque sit amet est et sapien ullamcorper pharetra. Vestibulum erat wisi, condimentum sed, <code>commodo vitae</code>, ornare sit amet, wisi. Aenean fermentum, elit eget tincidunt condimentum, eros ipsum rutrum orci, sagittis tempus lacus enim ac dui. <a href="#">Donec non enim</a> in turpis pulvinar facilisis. Ut felis.</p>
+
+
+	<h3>Sessions:</h3>
+
+	{{ sessions_array | raw  }}
+
+	<br><br><br>
+
+
+<form class="form-horizontal"  action="./sessions" method="POST">
+
+<div class="form-group">
+  <label>Input name:</label>
+  <input class="form-control" id="name" name="name" value="{{ sessions.name }}">
+</div>
+
+<div class="form-group">
+<label>Select color:</label>
+<select name="color">
+		  <option value="red"   {{ selected.color.red   | raw }} >Red</option>
+		  <option value="green" {{ selected.color.green | raw }}>Green</option>
+		  <option value="blue"  {{ selected.color.blue  | raw }}>Blue</option>	
+</select>
+</div>
+
+
+<div class="form-group">
+  <button type="submit" class="btn btn-primary" >Set</button>
+</div>
+
+</form>
+
+
+	<h3>Cookies:</h3>
+
+	{{ cookies | raw }}
+
+
+
 
 {% endblock %}

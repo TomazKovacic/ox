@@ -2,10 +2,11 @@
 
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\Session\Session;
 
   class Application implements \ArrayAccess {
 
-    public $version = '0.1b';
+    public $version = '0.04';
     public $bindings = array();
     public $request;
     public $config = array();
@@ -17,8 +18,12 @@ use Symfony\Component\HttpFoundation\Response;
     public function __construct() {
 
       $this->router    = new \ox\routing\Router();
-      $this->request   = new Request();
+      $this->request   = Request::createFromGlobals(); //= new Request();
       $this->response  = new Response();
+
+      $session = new Session();
+      $session->start();
+       $this->request->setSession($session);
     }
 
     // -----------------------------------------------------
@@ -75,6 +80,7 @@ use Symfony\Component\HttpFoundation\Response;
         //'Input'   => 'ox\Classes\Input',
         //'Lang'    => 'ox\Classes\Lang',
         //'Request' => 'ox\Classes\Request',
+        'Redirect' => '\ox\Routing\Redirector',
         'Route'   => '\ox\Routing\Route',
         //'Session' => 'ox\Classes\Session',
         //'URL'     => 'ox\Classes\URL',
@@ -117,16 +123,28 @@ use Symfony\Component\HttpFoundation\Response;
 
       $response = $this->handle($request);
 
-      if( 200 ==  $response->getStatusCode() ) {
+      //print 'App:run(), back with $response <br>';
+      //print_r2_adv($response);
+      //print htmlentities($response); //exit();
+
+      if( get_class($response) == 'Symfony\Component\HttpFoundation\Response' ) {
         $response->send();
 
-      } else {
-          $response->sendHeaders();
-          //exit();
-          print 'Status: ' . $response->getStatusCode() . '<br>';
+      } elseif( get_class($response) == 'Symfony\Component\HttpFoundation\RedirectResponse' ) {
+        //print $response;
+        //print htmlentities($response);
+        //$response = new \Symfony\Component\HttpFoundation\Response($response );
+        $response->send();
+
+      } elseif( is_string($response) ) {
+          print $response;
       }
 
+
+
       //print '<br><br>:'; print_r2_adv($this);
+
+
     }
     // -----------------------------------------------------
 

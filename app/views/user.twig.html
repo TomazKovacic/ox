@@ -1,0 +1,28 @@
+{% extends "layouts/main.twig.html" %}
+
+{% block title %}User{% endblock %}
+{% block content %}
+
+	<h1>Session and cookie variables</h1>
+	  
+	  
+	<h1>User profile </h1>
+
+
+
+	<h3>Login information:</h3>
+
+	{{ sessions_array | raw  }}
+
+	<br><br><br>
+
+
+
+	<h3>User data:</h3>
+
+	{{ cookies | raw }}
+
+
+
+
+{% endblock %}

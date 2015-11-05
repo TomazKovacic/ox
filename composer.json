@@ -28,6 +28,9 @@
         ]
     	},
     	"require": {
-    	    	"symfony/http-foundation": "^2.7"
+    	    	"symfony/http-foundation": "^2.7",
+                "firebase/php-jwt": "^3.0.0",
+                "nategood/commando": "*"
+
     	}
 }

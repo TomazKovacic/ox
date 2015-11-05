@@ -8,7 +8,11 @@ class logoutController extends baseController {
   function index() {
 
     //return View::make('logoutView');
-    return 'logoutController::index() return';
+    //return 'logoutController::index() return';
+
+  	Auth::Logout();
+
+    return Redirect::to('/user');
   }
 
 }
