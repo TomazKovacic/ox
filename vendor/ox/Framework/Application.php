@@ -37,8 +37,9 @@ use Symfony\Component\HttpFoundation\Session\Session;
     public function bindClass($name, $className) {
       $this->bindings[$name] =  new $className;
     }
-
+    
     // -----------------------------------------------------
+
     // ArrayAccess, mandarory
 
     public function offsetExists($offset) {
@@ -103,7 +104,23 @@ use Symfony\Component\HttpFoundation\Session\Session;
     }
 
     // -----------------------------------------------------
+    //
+    
+    public function getStackedClient() {
+      
+      $client = new \ox\stack\builder();
+      
+      //$client->push('Illuminate\Cookie\Guard', $this['encrypter']);
+      //$client->push('Illuminate\Cookie\Queue', $this['cookie']);
+      //$client->push('Illuminate\Session\Middleware', $this['session']);
+      
+      
+     
+      return $client;
+    }
 
+    // -----------------------------------------------------
+    
     /**
     * handle je previdan za vklučutev middlaware dodatkov, nato v dispatch
     */
@@ -121,8 +138,14 @@ use Symfony\Component\HttpFoundation\Session\Session;
               $request = Request::createFromGlobals();
       }
 
+      //original, plain
       $response = $this->handle($request);
 
+      //stack
+      
+      //STACK $stack = $this->getStackedClient();
+      //STACK $response = $stack->handle($request);
+      
       //print 'App:run(), back with $response <br>';
       //print_r2_adv($response);
       //print htmlentities($response); //exit();

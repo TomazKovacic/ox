@@ -14,4 +14,11 @@ class aboutController extends baseController {
 
     return View::make('about');
   }
+  
+  function about() {
+
+  	//return 'aboutController::index() return';
+
+    return View::make('about');
+  }
 }

@@ -19,6 +19,12 @@ class RouteCollection {
         'destination' => $destination,
         'parameters'     => $parameters );
 
+    //if named, add name. $destination['as']
+    if( is_array( $destination) && isset( $destination['as']) ) {
+      $last = count($this->routes)-1; 
+      $this->routes[$last]['name'] =  $destination['as'];
+    }
+    
     //print 'RouteCollection::add() route added. path: '. $path .'<br><br>';
   }
 

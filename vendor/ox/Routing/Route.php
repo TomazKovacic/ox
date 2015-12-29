@@ -32,7 +32,18 @@ class Route {
       print 'route::addRoute <br>' ."\n";
       print '- method: '. $method .' <br>' ."\n";
       print '- path: '. $path .' <br>' ."\n";
-      print '- destination: '. $destination .' <br>' ."\n";
+      print '- destination: ';
+      if(is_string($destination)) {
+        print $destination;
+      } elseif(is_array($destination)) {
+        print '[' . $destination . ']';
+      } elseif(is_object($destination)) {
+        print get_class($destination);
+      } else {
+          print '- ? -';
+      }
+      print '<br>' ."\n";
+         
       print '</div>' ."\n";
     }
 
