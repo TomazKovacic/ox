@@ -8,7 +8,7 @@
   });
   */
 
-#print('debug_backtrace:<pre>'); 
+#print('debug_backtrace:<pre>');
 //print_r( debug_backtrace());
 #debug_print_backtrace();
 #print('</pre>');
@@ -31,8 +31,8 @@
 
    //POST
 
-  Route::post('login', 'loginController@process');   
-   
+  Route::post('login', 'loginController@process');
+
 
   //routes
   Route::get('routes', 'routesController@index');
@@ -56,8 +56,18 @@
 
   Route::get('fntest', function() { return 'this is function test'; } );
 
-  //laravel compatimility
-  // Route::put, Route::delete, Route::match, Route::any, 
+
+  Route::post(   'routes/page/post',    'routesController@index');
+  Route::put(    'routes/page/put',     'routesController@index');
+  Route::patch(  'routes/page/patch',   'routesController@index');
+  Route::delete( 'routes/page/delete',  'routesController@index');
+  Route::options('routes/page/options', 'routesController@index');
+  Route::any(    'routes/page/any',     'routesController@index');
+
+  Route::match(['get','post'], 'routes/page/match', 'routesController@index');
+
+  //laravel compatibility
+  // Route::put, Route::delete, Route::match, Route::any,
 
 	/*
 	* syntax for future

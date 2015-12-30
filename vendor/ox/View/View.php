@@ -36,8 +36,11 @@ class View {
 
   public function render($filename, $data = array()) {
 
-
     //print 'View::render() <br>';
+    $app = app();
+
+    //set helpher variable 'u' to REQUEST_URI
+    $data['u'] = url();
 
     $loader = new \Twig_Loader_Filesystem(  $this->path );
     //$twig = new \Twig_Environment($loader, array( 'cache' => $this->cachepath ) );

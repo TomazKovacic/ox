@@ -7,5 +7,5 @@ $baseDir = dirname($vendorDir);
 
 return array(
     $baseDir . '/app/helper_functions.php',
-    $vendorDir . '/ox/framework/helpers.php',
+    $vendorDir . '/ox/Framework/helpers.php',
 );

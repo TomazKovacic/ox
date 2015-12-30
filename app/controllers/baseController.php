@@ -1,6 +1,6 @@
 <?php
 
-class baseController extends \ox\routing\Controller {
+class baseController extends \ox\Routing\Controller {
 
 
   function __construct() {

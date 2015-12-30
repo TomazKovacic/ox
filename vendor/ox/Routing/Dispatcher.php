@@ -1,4 +1,4 @@
-<?php namespace ox\routing;
+<?php namespace ox\Routing;
 
 class Dispatcher {
 
@@ -19,20 +19,20 @@ class Dispatcher {
     $destination = $currentRoute['destination'];
 
     if(is_string($destination) || is_array($destination) ) {    //string or array
-    
+
       if(is_string($destination)) {
         list($controllerClass, $controllerAction) = explode('@', $destination);
-      
+
       } else {  //array
-      
+
         if( !isset($destination['uses'])) {
-        
+
           print 'dispatch::dispatch() Error, no destination uses found.<br>';
           break;
         }
-        
+
         list($controllerClass, $controllerAction) = explode('@', $destination['uses']);
-        
+
       }
 
 
@@ -79,18 +79,18 @@ class Dispatcher {
 
       //print '[ASC 7] Dispatcher::dispatch() $controllerClass: <b>'. $controllerClass . '</b>, $controllerAction: <b>'. $controllerAction .'</b><br>';
       //print '[ASC 7] Dispatcher::dispatch() Name = ' . '\\' . $controllerClass . '<br>';
-    
+
     // --------------
     // --------------
-      
+
     } else {
       //print '*** else, type is ' . gettype($destination). ' class is ' . get_class($destination) . '<br>';
-      
+
       $result = $destination();
-      
+
       //print '*** result type is : ' . gettype($result);
       //if(gettype($result) == 'object') { print 'result class is : ' . get_class($result); }
-      
+
       //print_r2($result);
       //return $result;
     }

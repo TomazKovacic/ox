@@ -1,9 +1,9 @@
 <html>
 <head>
   <title>OX 2:{% block title %}{% endblock %}</title>
-  
-  <link rel="stylesheet" type="text/css" href="/style/bootstrap.css">
-  <link rel="stylesheet" type="text/css" href="/style/style.css" />
+
+  <link rel="stylesheet" type="text/css" href="{{u}}/style/bootstrap.css">
+  <link rel="stylesheet" type="text/css" href="{{u}}/style/style.css" />
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 </heady>
 <body>
@@ -12,25 +12,25 @@
   <div class="navbar navbar-fixed-top">
     <div class="navbar-inner">
       <div class="nn--container">
-        <ul class="nav"> 
+        <ul class="nav">
 
-				<li><a href="./">Home</a></li> 
-				<li><a href="./about">About OX</a></li> 
+				<li><a href="{{u}}">Home</a></li>
+				<li><a href="{{u}}about">About OX</a></li>
 
-        <li><a href="./routes">Routes</a></li> 
-        <li><a href="./database">Database</a></li>
-        <li><a href="./sessions">Sessions</a></li>
+        <li><a href="{{u}}routes">Routes</a></li>
+        <li><a href="{{u}}database">Database</a></li>
+        <li><a href="{{u}}sessions">Sessions</a></li>
 
 
-        <li><a href="./user">User</a></li>
-        <li><a href="./login">Login</a></li>
-				<li><a href="./logout">Logout</a></li> 
-				<li><a href="./registration">Registration</a></li>  
+        <li><a href="{{u}}user">User</a></li>
+        <li><a href="{{u}}login">Login</a></li>
+				<li><a href="{{u}}logout">Logout</a></li>
+				<li><a href="{{u}}registration">Registration</a></li>
 
-        </ul>  
+        </ul>
       </div>
     </div>
-  </div> 
+  </div>
 
 	<div class="container">
 

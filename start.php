@@ -8,15 +8,17 @@
   //print_r2( spl_autoload_functions() );
 
   $config = array();
-  $config['paths'] = require_once ROOT_DIR . '/app/paths.php';
+  $config = require_once ROOT_DIR . '/app/config/config.php';
+  //print_r2($_SERVER); print '---'; print_r2($config); exit();
+  $config['paths']  = require_once ROOT_DIR . '/app/config/paths.php';
 
   // check if database.php, if not, stop, inform about database.sample.php
-  if( !file_exists( ROOT_DIR . '/app/config/database.php' )) { print 'copy app/config/database.php to app/config/database.php and edit it.'; exit(); }
+  if( !file_exists( ROOT_DIR . '/app/config/database.php' )) { print 'copy <kbd><u>app/config/database.sample.php</u></kbd> to <kbd><u>app/config/database.php</u></kbd> and edit it.'; exit(); }
 
   $config['database'] = require_once ROOT_DIR . '/app/config/database.php';
 
 
-  $app = new ox\framework\Application();
+  $app = new ox\Framework\Application();
 
   $app->setConfiguration($config);
   Facade::init();

@@ -1,4 +1,4 @@
-<?php namespace ox\routing;
+<?php namespace ox\Routing;
 
 
 class RouteCollection {
@@ -21,10 +21,10 @@ class RouteCollection {
 
     //if named, add name. $destination['as']
     if( is_array( $destination) && isset( $destination['as']) ) {
-      $last = count($this->routes)-1; 
+      $last = count($this->routes)-1;
       $this->routes[$last]['name'] =  $destination['as'];
     }
-    
+
     //print 'RouteCollection::add() route added. path: '. $path .'<br><br>';
   }
 
@@ -102,7 +102,7 @@ class RouteCollection {
             //print 'found). '. $path .' <br>';
 
             if($this->regexCheck($rt['path'], $pathinfo) == true) {
-            
+
               $rt['parameters'] = $this->parameters;
 
               //print '$$ '; print_r2($rt);
@@ -133,20 +133,20 @@ class RouteCollection {
     //print_r2($routeParts);
     //print_r2($pathinfoParts);
 
-    if( count($routeParts) !== count($pathinfoParts)) { 
+    if( count($routeParts) !== count($pathinfoParts)) {
       //print '5 A # Parts count mismatch, false. <br><br>';
       return false;
     }
 
     foreach($routeParts as $ix=>$part) {
 
-      //print '## ' . $routeParts[$ix] . ' vs ' . $pathinfoParts[$ix] . ' <br>'; 
+      //print '## ' . $routeParts[$ix] . ' vs ' . $pathinfoParts[$ix] . ' <br>';
 
       if( (substr($routeParts[$ix],0, 1)  === '{') &&   (substr($routeParts[$ix], -1) === '}') ) {
           $key = substr($routeParts[$ix],1, -1);
-           //print '## is REGEX: ' . $pathinfoParts[$ix] . ', key = '. $key .'<br>'; 
+           //print '## is REGEX: ' . $pathinfoParts[$ix] . ', key = '. $key .'<br>';
            $this->parameters[$key] = $pathinfoParts[$ix];
-      
+
       } else {
           if ( $routeParts[$ix] !== $pathinfoParts[$ix] ) {
             //print '5 A # Parts compare mismatch, false. <br><br>';

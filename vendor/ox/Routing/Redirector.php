@@ -1,5 +1,5 @@
 <?php
-namespace ox\routing;
+namespace ox\Routing;
 
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Cookie;
@@ -80,7 +80,7 @@ class Redirector {
 			}
 		}
 
-		
+
 		//$rsp->send();
 		//print_r2( $rsp->headers ) ;
 		//exit();

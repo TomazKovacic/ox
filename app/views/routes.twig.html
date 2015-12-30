@@ -5,7 +5,7 @@
 {% block content %}
 
 	<h1>Routes</h1>
-	  
+
 	<b> id: </b>
   {{ id }} <br>
   <b> name: </b>
@@ -14,31 +14,53 @@
 
   <pre>
 
-  <a href="/">Route::get('/', 'homeController@index'); </a>
+  <a href="{{ u }}">Route::get('/', 'homeController@index'); </a>
 
 
-  <a href="/about">Route::get('about',  'aboutController@index'); </a>
-  <a href="/login">Route::get('login',  'loginController@index'); </a>
-  <a href="/logout">Route::get('logout', 'logoutController@index'); </a>
+  <a href="{{ u }}about">Route::get('about',  'aboutController@index'); </a>
+  <a href="{{ u }}login">Route::get('login',  'loginController@index'); </a>
+  <a href="{{ u }}logout">Route::get('logout', 'logoutController@index'); </a>
 
   <a href="#">Route::post('login', 'loginController@process'); </a>
-  
-  <a href="/routes">Route::get('routes', 'routesController@index'); </a>
 
-   <a href="/routes/123">Route::get('routes/123', 'routesController@index'); </a>
-   <a href="/routes/page/report">Route::get('routes/page/report', 'routesController@named_page'); </a>
-   <a href="/routes/page/third/id/456">Route::get('routes/page/third/id/456', 'routesController@third_page'); </a>
+  <a href="{{u}}routes">Route::get('routes', 'routesController@index'); </a>
 
-  <a href="/database">Route::get('database', 'databaseController@index'); </a>
-  <a href="/sessions">Route::get('sessions', 'sessionsController@index'); </a>
+  <a href="{{u}}routes/123">Route::get('routes/123', 'routesController@index'); </a>
+	<a href="{{u}}routes/page/report">Route::get('routes/page/report', 'routesController@named_page'); </a>
+	<a href="{{u}}routes/page/third/id/456">Route::get('routes/page/third/id/456', 'routesController@third_page'); </a>
 
-  <a href="/testarray">Route::get('testarray', array( 'as' => 'testing', 'uses' => 'sessionController@index') ); </a>
+  <a href="{{ u }}database">Route::get('database', 'databaseController@index'); </a>
+  <a href="{{ u }}sessions">Route::get('sessions', 'sessionsController@index'); </a>
+
+  <a href="{{ u }}testarray">Route::get('testarray', array( 'as' => 'testing', 'uses' => 'sessionController@index') ); </a>
+
+  <a href="{{ u }}fntest">Route::get('fntest', function() { return 'this is function test'; } ); </a>
+
+  <a href="{{u}}routes">Route:any('routes/555', 'routesController@index') </a>
 
 
-  <a href="/fntest">Route::get('fntest', function() { return 'this is function test'; } ); </a>
+TODO:
 
-  </pre>
+Middleware:
 
+Route::group(['middleware' => 'auth'], function () {
+  Route::get('/', function ()    {},
+  Route::get('/', function ()    {}
+});
 
+Namespaces:
+
+Route::group(['namespace' => 'Admin'], function() {
+  Route::group(['namespace' => 'User'], function() {
+
+  }
+}
+
+Prefixes:
+
+Route::group(['prefix' => 'admin'], function () {
+
+});
+</pre>
 
 {% endblock %}

@@ -5,11 +5,11 @@ return array(
 
 	/*
 	|-----------------------
-	|  PDO Fetch Style 
+	|  PDO Fetch Style
 	|-----------------------
 	*/
 
-	'fetch' => PDO::FETCH_CLASS, 
+	'fetch' => PDO::FETCH_CLASS,
 
 	/*
 	|--------------------------------------------------------------------------
@@ -46,8 +46,8 @@ return array(
 			'password'  => '',
 			'charset'   => 'utf8',
 			'collation' => 'utf8_unicode_ci',
-			'prefix'    => '',
-		),
+			'prefix'    => ''
+		)
 
 		// --- no support for now
 		//'pgsql' => array(
@@ -59,8 +59,7 @@ return array(
 		//	'charset'  => 'utf8',
 		//	'prefix'   => '',
 		//	'schema'   => 'public',
-		//)
-	);
+	  //);
 
+	)
 );
-
