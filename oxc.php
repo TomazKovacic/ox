@@ -21,5 +21,5 @@ $cmd->option('r')
 
 print 'hello ' . $cmd[0];
 
-//print 'oxc: OXC command line tool.';
+print "\n----\n" . "oxc: OXC command line tool.\n";
 

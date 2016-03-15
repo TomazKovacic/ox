@@ -66,6 +66,11 @@
 
   Route::match(['get','post'], 'routes/page/match', 'routesController@index');
 
+  Route::group(['middleware' => 'auth'], function () {
+
+    Route::get('routes/page/ingroup1', 'routesController@index');
+  });
+
   //laravel compatibility
   // Route::put, Route::delete, Route::match, Route::any,
 

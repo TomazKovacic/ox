@@ -1,5 +1,6 @@
 <?php
 namespace ox\Routing;
+use Closure;
 
 class Route {
 
@@ -7,6 +8,8 @@ class Route {
   private $path;
   private $destination;
   private $parameters;
+
+  protected $groupStack = array();
 
   static function get($path, $destination, $parameters = null) {
 //print 'ox\Classes\route::get <br>';
@@ -50,12 +53,20 @@ class Route {
     }
   }
 
-  static function group(array $attributes, Closure $callback) {
+  function group(array $attributes, Closure $callback) {
     $this->updateGroupAttributes($attributes);
     call_user_func($callback);
     array_pop($this->groupStack);
   }
 
+  protected function updateGroupAttributes(array $attributes) {
+    if(count($this->groupStack)>0) {
+      $last = $this->groupStack[count($this->groupStack) - 1];
+      $this->groupStack[] = array_merge_recursive($last, $attributes);
+    } else {
+      $this->groupStack[] = $attributes;
+    }
+  }
 
   static function addRoute($method, $path, $destination, $parameters) {
 
