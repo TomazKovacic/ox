@@ -1,3 +1,4 @@
 app/cache/*
 app/config/database.php
+/nbproject/
 /nbproject/private/
