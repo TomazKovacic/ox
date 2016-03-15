@@ -159,7 +159,7 @@ class RouteCollection {
 
     //preg_match("/\{(.*?)\}/", $input_line, $output_array);
     /*
-    a. razbuj po slashih  ie. explode '/' v -> parts
+    a. razbij po slashih  ie. explode '/' v -> parts
     b. primerjaj število parts
     c. ali so ne-regex parts isti
     d. če da, ok -> return true

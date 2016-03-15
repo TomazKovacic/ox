@@ -26,20 +26,38 @@
   <a href="{{u}}routes">Route::get('routes', 'routesController@index'); </a>
 
   <a href="{{u}}routes/123">Route::get('routes/123', 'routesController@index'); </a>
-	<a href="{{u}}routes/page/report">Route::get('routes/page/report', 'routesController@named_page'); </a>
-	<a href="{{u}}routes/page/third/id/456">Route::get('routes/page/third/id/456', 'routesController@third_page'); </a>
+  <a href="{{u}}routes/page/report">Route::get('routes/page/report', 'routesController@named_page'); </a>
+  <a href="{{u}}routes/page/third/id/456">Route::get('routes/page/third/id/456', 'routesController@third_page'); </a>
 
   <a href="{{ u }}database">Route::get('database', 'databaseController@index'); </a>
   <a href="{{ u }}sessions">Route::get('sessions', 'sessionsController@index'); </a>
 
-  <a href="{{ u }}testarray">Route::get('testarray', array( 'as' => 'testing', 'uses' => 'sessionController@index') ); </a>
+  <a href="{{ u }}testarray">Route::get('testarray', array( 'as' => 'testing', 'uses' => 'sessionsController@index') ); </a>
 
   <a href="{{ u }}fntest">Route::get('fntest', function() { return 'this is function test'; } ); </a>
 
-  <a href="{{u}}routes">Route:any('routes/555', 'routesController@index') </a>
+  <a href="{{u}}routes">Route::any('routes/any/555', 'routesController@index') </a>
 
+  <a href="{{u}}routes/page/post">Route::post(   'routes/page/post',    'routesController@index');</a>
+  <a href="{{u}}routes/page/put">Route::put(    'routes/page/put',     'routesController@index');</a>
+  <a href="{{u}}routes/page/patch">Route::patch(  'routes/page/patch',   'routesController@index');</a>
+  <a href="{{u}}routes/page/delete">Route::delete( 'routes/page/delete',  'routesController@index');</a>
+  <a href="{{u}}routes/page/options">Route::options('routes/page/options', 'routesController@index');</a>
+  <a href="{{u}}routes/page/any">Route::any(    'routes/page/any',     'routesController@index');</a>
+
+  <a href="{{u}}routes/page/match">Route::match(['get','post'], 'routes/page/match', 'routesController@index');</a>
+
+  Route::group(['middleware' => 'auth'], function () {
+
+    <a href="{{u}}routes/page/ingroup1">Route::get('routes/page/ingroup1', 'routesController@index');</a>
+  });
 
 TODO:
+
+Optional Parameters:
+Route::get('user/{name?}' ...
+
+Route Groups
 
 Middleware:
 

@@ -17,7 +17,7 @@ use Symfony\Component\HttpFoundation\Session\Session;
 
     public function __construct() {
 
-      $this->router    = new \ox\Routing\Router();
+      #$this->router    = new \ox\Routing\Router();
       $this->request   = Request::createFromGlobals(); //= new Request();
       $this->response  = new Response();
 
@@ -82,7 +82,7 @@ use Symfony\Component\HttpFoundation\Session\Session;
         //'Lang'    => 'ox\Classes\Lang',
         //'Request' => 'ox\Classes\Request',
         'Redirect' => '\ox\Routing\Redirector',
-        'Route'   => '\ox\Routing\Route',
+        'Route'   => '\ox\Routing\Router',
         //'Session' => 'ox\Classes\Session',
         //'URL'     => 'ox\Classes\URL',
         'View'    => 'ox\View\View'
@@ -100,7 +100,8 @@ use Symfony\Component\HttpFoundation\Session\Session;
 
     private function dispatch(Request $request) {
 
-      return $this->router->dispatch($request); //returrns Response object
+      
+      return $this['Route']->dispatch($request); //returrns Response object
     }
 
     // -----------------------------------------------------
@@ -166,6 +167,7 @@ use Symfony\Component\HttpFoundation\Session\Session;
 
 
       //print '<br><br>:'; print_r2_adv($this);
+      
 
 
     }

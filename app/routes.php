@@ -1,12 +1,6 @@
 <?php
 
-/*
-  Route::get('/', function() {
 
-    return View::make('index');
-
-  });
-  */
 
 #print('debug_backtrace:<pre>');
 //print_r( debug_backtrace());
@@ -14,11 +8,9 @@
 #print('</pre>');
 
 
-#print('routes.php SKIP<br><br>'); return;
-
-   //ox\Classes\Route::get('/', 'homeController@index');
    Route::get('/', 'homeController@index');
 
+   
 
    //Route::post('/home', 'homeController@save');
 
@@ -51,7 +43,7 @@
   Route::post('sessions', 'sessionsController@process');
 
 
-  Route::get('testarray', array( 'as' => 'testing', 'uses' => 'sessionController@index' ) );
+  Route::get('testarray', array( 'as' => 'testing', 'uses' => 'sessionsController@index' ) );
 
 
   Route::get('fntest', function() { return 'this is function test'; } );

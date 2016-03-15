@@ -48,5 +48,7 @@
   $app->registerCoreContainerAliases();
 
   require ROOT_DIR . '/app/routes.php';
+  
+  //print_r2($app['Route']->getRoutes());
 
   return $app;
