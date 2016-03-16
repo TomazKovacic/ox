@@ -129,7 +129,7 @@ class Router {
     }
 
 
-    public function addRoute($method, $path, $destination, $parameters = null ) {
+    public static function addRoute($method, $path, $destination, $parameters = null ) {
 
     $app = app();
 
