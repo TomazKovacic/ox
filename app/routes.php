@@ -7,6 +7,15 @@
 #debug_print_backtrace();
 #print('</pre>');
 
+  //testing
+  /*
+  Route::group(['middleware' => 'auth'], function () {
+
+    Route::get('routes/page/ingroup1', 'routesController@index');
+  });
+  return;
+  */
+  //testing END
 
    Route::get('/', 'homeController@index');
 

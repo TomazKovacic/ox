@@ -32,28 +32,17 @@ class Router {
 
       //@todo callFilter('after'); //maybe after this->dispatcher->dispatch?
 
-      //return $this->dispatcher->dispatch($request,  $this->current);
+      #print get_class($this->current); exit();
 
-      if( is_array($this->current) && ( $this->current['destination'] ) ) {
+      if( (get_class($this->current) == 'ox\Routing\Route') ) {
 
         return $this->dispatcher->dispatch($request,  $this->current);
 
       } else {
 
-          if (false === $this->current ) {
-
             //return status 404, not found
             return new \Symfony\Component\HttpFoundation\Response('Error: route not found', 404);
-          }
-
       }
-
-
-      //print_r2($this->current);
-      //print '----';
-      //print_r2($rs);
-
-      return $rs;
 
     }
 
@@ -135,8 +124,18 @@ class Router {
 
     //$des = is_string($destination)?$destination: '?'; print 'Router::addRoute('. $method .', '. $path .', '. $des . ') ... <br>';
     //print_r2($app);
+    
+    $route = static::createRoute($method, $path, $destination, $parameters);
 
-    $app['Route']->routeCollection->add($method, $path, $destination, $parameters);
+    //$app['Route']->routeCollection->add($method, $path, $destination, $parameters);
+    $app['Route']->routeCollection->add($route);
   }
+  
+   protected static function createRoute($method, $path, $destination, $parameters)
+   {
+       $route = new Route($method, $path, $destination, $parameters);
+       
+       return $route;
+   }
 
 }

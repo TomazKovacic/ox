@@ -16,7 +16,7 @@ class Dispatcher {
     //print '[ASC 7] Dispatcher::dispatch()<br><br>';
     //print_r2_button(':: Current: route'); print_r2($currentRoute);
 
-    $destination = $currentRoute['destination'];
+    $destination = $currentRoute->getDestination();
 
     if(is_string($destination) || is_array($destination) ) {    //string or array
 
@@ -52,7 +52,10 @@ class Dispatcher {
         //print 'Test Parameters:<br>';
         //print_r2 ( $currentRoute['parameters'] );
 
-        $parameters = ($currentRoute['parameters'])? array_values($currentRoute['parameters']) : array();
+        //$parameters = ($currentRoute['parameters'])? array_values($currentRoute['parameters']) : array();
+        $parameters = $currentRoute->getParameters();
+        
+        //print 'Parameters: '; print_r2($parameters);
 
 
         //dumb code, but faster

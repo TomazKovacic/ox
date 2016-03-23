@@ -11,8 +11,11 @@ class RouteCollection {
 
   public function __construct() {}
 
-  public function add($method, $path, $destination, $parameters) {
+  //public function add($method, $path, $destination, $parameters) {
+  public function add($route) {
 
+    /**
+     * old
     $this->routes[] = array(
         'method'      => $method,
         'path'        => $path,
@@ -24,9 +27,11 @@ class RouteCollection {
       $last = count($this->routes)-1;
       $this->routes[$last]['name'] =  $destination['as'];
     }
-
-    //print 'RouteCollection::add() route added. path: '. $path .'<br><br>';
+     */
+      
+    $this->routes[] = $route;
   }
+  
 
 
   public function match( \Symfony\Component\HttpFoundation\Request $request ) {
@@ -58,9 +63,11 @@ class RouteCollection {
 
     if( is_array($this->routes) && (count($this->routes)>0) ) {
       foreach($this->routes as $rt) {
-          if($rt['method'] == $method) {
+          
+          if($rt->getMethod() == $method) {
             $picked_routes[] = $rt;
           }
+          //print_r2($rt);
       }
     }
 
@@ -69,15 +76,7 @@ class RouteCollection {
 
   public function check( \Symfony\Component\HttpFoundation\Request $request, array $routes ) {
 
-
     //print '[ASC 5]  RouteCollection::check() <br>';
-
-    //print_r2_button('check(): request'); print_r2(  $request );
-
-    //print '5: Test:  $request->getPathInfo(): ' . $request->getPathInfo() . '<br>';
-    //print '5: Test:  $request->getRequestUri(): ' . $request->getRequestUri() . '<br>';
-    //print '5: Test:  $request->getBaseUrl(): ' . $request->getBaseUrl() . '<br>';
-    //print '5: Test:  $request->getBasePath(): ' . $request->getBasePath() . '<br>';
 
     $pathinfo = $request->getPathInfo();
 
@@ -88,7 +87,7 @@ class RouteCollection {
 
      if( is_array($routes) && (count($routes)>0) ) {
       foreach($routes as $rt) {
-          $path = $rt['path'];
+          $path = $rt->getPath();
 
           //print '5: Compare rt[path]: ' . $rt['path'] . ' vs $pathinfo: ' . $pathinfo . '<br>';
           if($path ==  $pathinfo) {
@@ -101,9 +100,9 @@ class RouteCollection {
 
             //print 'found). '. $path .' <br>';
 
-            if($this->regexCheck($rt['path'], $pathinfo) == true) {
+            if($this->regexCheck($path, $pathinfo) == true) {
 
-              $rt['parameters'] = $this->parameters;
+              $rt->setParameters( $this->parameters );
 
               //print '$$ '; print_r2($rt);
               return $rt;
