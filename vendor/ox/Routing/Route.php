@@ -7,9 +7,9 @@ class Route {
   private $method;
   private $path;
   private $destination;
-  private $parameters;
+  private $parameters = array();
   
-  private $as;
+  private $name;
   private $before;
   private $after;
   private $middleware;
@@ -82,8 +82,17 @@ class Route {
   public function getNamespace() {
       return $this->namespace;
   }
+  
+  public function setNamespace($namespace) {
+      $this->namespace = $namespace;
+  }
+  
   public function getPrefix() {
       return $this->prefix;
+  }
+
+  public function setPrefix($prefix) {
+      $this->prefix = $prefix;
   }
   
   public function getParameters() {
@@ -96,5 +105,4 @@ class Route {
       
       $this->parameters = $parameters;
   }
-  
 }

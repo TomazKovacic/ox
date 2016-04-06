@@ -34,7 +34,7 @@ class Router {
 
       #print get_class($this->current); exit();
 
-      if( (get_class($this->current) == 'ox\Routing\Route') ) {
+      if( is_object($this->current) && (get_class($this->current) == 'ox\Routing\Route') ) {
 
         return $this->dispatcher->dispatch($request,  $this->current);
 
@@ -95,22 +95,20 @@ class Router {
         
         
         $this->updateGroupAttributes($attributes);
-        $app1 = app();
+        //print basename(__FILE__).'/'. __LINE__ . ' #1 groupStack snapshot: '; print_r2($this->groupStack); print '<br>';
+        
         call_user_func($callback, $this);
         array_pop($this->groupStack);
         
-        $x = $this->groupStack;
+        //print basename(__FILE__).'/'. __LINE__ . ' #2 groupStack snapshot: '; print_r2($this->groupStack); print '<br>';
     }
 
     protected function updateGroupAttributes(array $attributes) {
         
         if (! empty($this->groupStack)) {
             $attributes = array_merge($attributes, end($this->groupStack));
-        }
-        
-        //
+        }        
         $this->groupStack[] = $attributes;
-        $app1 = app();
     }
 
     public function getRoutes() {
@@ -127,13 +125,53 @@ class Router {
     
     $route = static::createRoute($method, $path, $destination, $parameters);
 
-    //$app['Route']->routeCollection->add($method, $path, $destination, $parameters);
     $app['Route']->routeCollection->add($route);
   }
   
    protected static function createRoute($method, $path, $destination, $parameters)
    {
        $route = new Route($method, $path, $destination, $parameters);
+       
+       //print basename(__FILE__).'/'. __LINE__ . ' @' . __FUNCTION__ . ';<br>';
+       //print 'New route:'; print_r2($route);
+       
+       $app = app();
+       
+       $groupStack = $app['Route']->groupStack;
+       
+       if( is_array($groupStack) && (count($groupStack)>0) ) {
+           
+           $group = $app['Route']->groupStack[count($app['Route']->groupStack) - 1];
+
+            foreach ($group as $name => $val) {
+                //print 'GS: name:' .$name. ' val:'. $val .'<br>';
+
+                switch ($name) {
+                    case 'middleware';
+                        if (is_string($val)) {
+                            $val = [$val];
+                        }
+                        $route->setMiddleware($val);
+                        break;
+                    case 'prefix':
+                        $route->setPrefix($val);
+                        break;
+                    case 'namespace':
+                        $route->setNamespace($val);
+                        break;
+
+                    default:
+                        print 'unknowwn group setting<br>';
+                }
+            }
+
+            //print 'Stack:'; print_r2( $app['Route']->groupStack );
+       }
+       
+       //print 'Route after:'; print_r2($route);
+       
+
+       
        
        return $route;
    }

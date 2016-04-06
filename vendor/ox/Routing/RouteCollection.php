@@ -11,23 +11,7 @@ class RouteCollection {
 
   public function __construct() {}
 
-  //public function add($method, $path, $destination, $parameters) {
   public function add($route) {
-
-    /**
-     * old
-    $this->routes[] = array(
-        'method'      => $method,
-        'path'        => $path,
-        'destination' => $destination,
-        'parameters'     => $parameters );
-
-    //if named, add name. $destination['as']
-    if( is_array( $destination) && isset( $destination['as']) ) {
-      $last = count($this->routes)-1;
-      $this->routes[$last]['name'] =  $destination['as'];
-    }
-     */
       
     $this->routes[] = $route;
   }
@@ -36,7 +20,7 @@ class RouteCollection {
 
   public function match( \Symfony\Component\HttpFoundation\Request $request ) {
 
-    //print '[ASC3] RouteCollection::match() <br><br>';
+    //print '[ASC3] RouteCollection::match() ---ne dela --- <br><br>';
 
     //print '[ASC3] &gt; RouteCollection::match() Test: Method is: ' . $request->getMethod() . '<br>';
     //print '[ASC3] &gt; RouteCollection::match() Test: All routes in collection: <br>';
@@ -67,7 +51,6 @@ class RouteCollection {
           if($rt->getMethod() == $method) {
             $picked_routes[] = $rt;
           }
-          //print_r2($rt);
       }
     }
 
@@ -89,7 +72,7 @@ class RouteCollection {
       foreach($routes as $rt) {
           $path = $rt->getPath();
 
-          //print '5: Compare rt[path]: ' . $rt['path'] . ' vs $pathinfo: ' . $pathinfo . '<br>';
+          //print '5: Compare rt[path]: ' . $path . ' vs $pathinfo: ' . $pathinfo . '<br>';
           if($path ==  $pathinfo) {
             //print '** Route found: ' . $pathinfo . '<br>';
             return $rt;

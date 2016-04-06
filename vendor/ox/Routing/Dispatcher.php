@@ -24,11 +24,13 @@ class Dispatcher {
         list($controllerClass, $controllerAction) = explode('@', $destination);
 
       } else {  //array
+          
+          print 'STOP, FIX ' . __LINE__ . ' ' . __FILE__ . '<br>'; 
 
         if( !isset($destination['uses'])) {
 
           print 'dispatch::dispatch() Error, no destination uses found.<br>';
-          break;
+          return;
         }
 
         list($controllerClass, $controllerAction) = explode('@', $destination['uses']);
@@ -47,17 +49,13 @@ class Dispatcher {
       catch (Exception $e) {
         print 'Exception: '.  $e->getMessage(). "<br>\n";
       }
+      //print_r2($currentRoute);
 
       try {
-        //print 'Test Parameters:<br>';
-        //print_r2 ( $currentRoute['parameters'] );
 
-        //$parameters = ($currentRoute['parameters'])? array_values($currentRoute['parameters']) : array();
-        $parameters = $currentRoute->getParameters();
+        $parameters = ($currentRoute->getParameters())? array_values($currentRoute->getParameters()) : array();
+        //$parameters = array_values( $currentRoute->getParameters() );
         
-        //print 'Parameters: '; print_r2($parameters);
-
-
         //dumb code, but faster
         switch (count($parameters)) {
           case 0:

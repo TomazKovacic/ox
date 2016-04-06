@@ -67,11 +67,30 @@
 
   Route::match(['get','post'], 'routes/page/match', 'routesController@index');
 
+  //
+  
   Route::group(['middleware' => 'auth'], function () {
-
     Route::get('routes/page/ingroup1', 'routesController@index');
   });
+  
+  Route::group(['prefix' => 'users'], function () {
+    Route::get('routes/page/pfxusers', 'routesController@index');  
+  });
 
+  Route::group(['namespace' => 'testns'], function () {
+    Route::get('routes/page/testns', 'routesController@index');  
+  });
+  
+  Route::group(['middleware' => 'auth'], function () {
+    Route::group(['prefix' => 'admin'], function () {
+      Route::get('routes/page/admin', 'routesController@index');  
+    });
+  });
+  
+  Route::group(['middleware' => 'auth', 'prefix' => 'admin', 'namespace' => 'admin'], function () {
+    Route::get('routes/page/test2', 'routesController@index');  
+  });  
+  
   //laravel compatibility
   // Route::put, Route::delete, Route::match, Route::any,
 
