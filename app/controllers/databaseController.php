@@ -6,6 +6,14 @@ class databaseController extends baseController {
   }
 
   function index() {
+	  
+	$select_text = '';
+	$insert_text = '';
+	$update_text = '';
+	$delete_text = '';
+	$show_tables_text = '';
+	$pdo_text = '';
+	
 
     ob_start();
     $data = DB::select('SELECT * FROM countries LIMIT 2');
@@ -13,10 +21,12 @@ class databaseController extends baseController {
     $select_text = ob_get_contents();
     ob_end_clean();
 
+
     //insert
 
     $inserted = DB::insert('INSERT INTO test (a,b) VALUES(?,?)', array(1,2) );
     $insert_text = 'inserted: ' . $inserted . '<br>';
+
 
     //update
 
@@ -25,8 +35,9 @@ class databaseController extends baseController {
 
     //delete
 
-    $affected = DB::delete('DELETE test WHERE a=?', array(999) );
+    $affected = DB::delete('DELETE FROM test WHERE a=?', array(999) );
     $delete_text = 'delete affected: ' . $affected . '<br>';
+
 
     //show tables
     ob_start();
