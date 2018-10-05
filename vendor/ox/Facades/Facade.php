@@ -2,17 +2,17 @@
 	namespace ox\Facades;
 
 	class Facade {
-		
+
 		protected static $app;
 		protected static $instance;
-		
-		public static function init() {	
+
+		public static function init() {
 			//print '<br><br>****  Facade::init (static)  **** <br><br>';
 
 			static::$instance = array();
 		}
-		
-		
+
+
 		public static function clear() {  //alias
 			static::init();
 		}
@@ -20,14 +20,14 @@
 		public static function clearInstance($name) {
 			unset(static::$instance[$name]);
 		}
-	
+
 		public static function dump() {
-			
+
 			print '<hr>DUMP: <pre>';
 			print_r ( static::$app );
 			print '</pre><hr>';
 		}
-		
+
 		public static function setApplication($app) {
 			//print '<br><br>****  Facade::setApplication (static)  **** <br><br>';
 			static::$app = $app;
@@ -37,19 +37,19 @@
 			//print '<br><br>****  Facade::getApplication (static)  **** <br><br>';
 			return static::$app;
 		}
-		
+
 		public static function __callStatic($method, $args) {
 
 			$debug = false;
 			//$debug = true;
-
-
-			$name = static::getAccessor();
+			
+			$name = static::getAccessor(); //print 'm-name: ' . $name .'<br>'; print_r2(static::$app->bindings);
 			$instance = static::$app->bindings[$name];
 
-
+			//print 'FAC: instance name: '. $name .', type: ' . get_class($instance) . '<br>';
 			//print_r2( static::$app );
-			//print_r2( static::$app->bindings );
+			//print 'App Bindings: '; print_r2( static::$app->bindings );
+			//print 'App Bindings K : '; print_r2(array_keys( static::$app->bindings ));
 
 
 			if( $debug == true ) {
@@ -82,9 +82,9 @@
 				default:
 					return call_user_func_array(array($instance, $method), $args);
 			}
-			
+
 			//
 
 		}
-		
+
 	}

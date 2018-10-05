@@ -10,8 +10,8 @@ class Route {
   private $parameters = array();
   
   private $name;
-  private $before;
-  private $after;
+  private $before = array();
+  private $after = array();
   private $middleware;
   private $namespace;
   private $prefix;
@@ -48,21 +48,6 @@ class Route {
       $this->name = $name;
   }
 
-  public function getBefore() {
-      return $this->before;
-  }
-  
-  public function setBefore($before) {
-      $this->before = $before;
-  }
-
-  public function getAfter() {
-      return $this->after;
-  }
-  
-  public function setAfter($after) {
-      return $this->after = $after;
-  }
 
   public function getMiddleware() {
       return $this->middleware;
@@ -91,6 +76,29 @@ class Route {
       return $this->prefix;
   }
 
+  public function getBefore() {
+      return $this->before;
+  }
+    
+  public function setBefore($beforeArray) {
+    if(!is_array($beforeArray)) {
+        throw new \Exception("Before argument must be an array");
+    }
+    $this->before =  array_unique(array_merge($this->before, $beforeArray));
+  }
+
+  public function getAfter() {
+      return $this->after;
+  }
+    
+  public function setAfter($afterArray) {
+    if(!is_array($afterArray)) {
+        throw new \Exception("After argument must be an array");
+    }
+    $this->after =  array_unique(array_merge($this->after, $afterArray));
+  }
+
+    
   public function setPrefix($prefix) {
       $this->prefix = $prefix;
   }

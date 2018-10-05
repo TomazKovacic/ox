@@ -69,10 +69,14 @@ class Redirector {
 
 		if(!empty($this->cookies)) {
 			foreach($this->cookies as $ckey=>$cval) {
-				$rsp->headers->setCookie(  new Cookie($ckey, $cval,  time()+(3600*6), '/', null, false, false) );
+				if( (is_object($cval)) && (get_class($cval) == 'Symfony\Component\HttpFoundation\Cookie') ) {
+					$rsp->headers->setCookie($cval);
+				} else {
+					$rsp->headers->setCookie(  new Cookie($ckey, $cval,  time()+(3600*6), '/', null, false, false) );
+				}
+
 			}
 		}
-
 
 		if(!empty($this->cookies_to_remove)) {
 			foreach($this->cookies_to_remove as $name) {
@@ -80,6 +84,7 @@ class Redirector {
 			}
 		}
 
+		// T-77
 
 		//$rsp->send();
 		//print_r2( $rsp->headers ) ;

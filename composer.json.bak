@@ -1,0 +1,39 @@
+{
+    "name": "ox/ox",
+    "type": "framework",
+    "description": "OX Framework",
+    "authors": [
+    {
+        "name": "Tomaž Kovačič",
+        "email": "tomazkovacic2@gmail.com",
+        "homepage": "http://pisarna.svarog.si/tomaz/",
+        "role": "Lead Developer"
+    }
+    ],
+    "license": "MIT",
+    "autoload": {
+        "classmap": [
+            "app/controllers",
+            "app/models"
+        ],
+        "psr-4": {
+            "ox\\" : "vendor/ox"
+        },
+        "psr-0" : {
+            "Twig_" : "vendor/Twig/lib/"
+        },
+        "files": [
+            "app/helper_functions.php",
+            "vendor/ox/Framework/helpers.php"
+        ]
+    	},
+    	"require": {
+    	    	"symfony/http-foundation": "^2.7",
+
+        "symfony/http-foundation": "^3.2",
+        "symfony/http-kernel": "^3.2",
+        "stack/builder": "^1.0",
+        "firebase/php-jwt": "^3.0.0"
+
+    	}
+}

@@ -39,8 +39,11 @@ class View {
     //print 'View::render() <br>';
     $app = app();
 
+
     //set helpher variable 'u' to REQUEST_URI
-    $data['u'] = url();
+      $data['u'] = url();
+      $data['user']   = \Auth::user();
+      $data['config'] = $app->config;
 
     $loader = new \Twig_Loader_Filesystem(  $this->path );
     //$twig = new \Twig_Environment($loader, array( 'cache' => $this->cachepath ) );

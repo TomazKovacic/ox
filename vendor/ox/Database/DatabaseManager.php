@@ -2,29 +2,21 @@
 
 namespace ox\Database;
 
-//class DatabaseManager extends \PDO {
-class DatabaseManager  {
+use ox\Database\Connectors\ConnectionFactory;
+
+class DatabaseManager implements ConnectionResolverInterface {
 
   private $dbConfig = array();
   private $connections = array();
   private $defaultName;
+  private $error;
 
   private $debug = false;
 
   function __construct() {
 
-
-  	$app = app();
-    $config = $app->getConfiguration();
-    $this->dbConfig =  $config['database'];
-    
-
-    $this->defaultName = $this->dbConfig['default'];
-
-
-    //connect to default db 
-    $this->makeConnection($this->defaultName);
-
+    $config = app()->getConfiguration();
+    $this->dbConfig  =  $config['database'];
   }
 
 
@@ -37,114 +29,93 @@ class DatabaseManager  {
     }
 
     $dbc = $this->dbConfig['connections'][$name];
+      
+    //print 'dbc:'; print_r2($dbc);
 
-    $dsn = "mysql:host={$dbc['host']};dbname={$dbc['database']};charset=utf8";
-    $this->connections[$name]  = $conn = new \PDO($dsn, $dbc['username'], $dbc['password']);
+    //$dsn = "mysql:host={$dbc['host']};dbname={$dbc['database']};charset=utf8";
+    //$this->connections[$name]  = $conn = new \PDO($dsn, $dbc['username'], $dbc['password']);
 
     //print 'Dsn: ' . $dsn . '<br>';
     //print_r2($this->connections);
 
-    $query = 'SET NAMES '. $dbc['charset'] . ' COLLATE '. $dbc['collation'] ;
+    //PREPARE $query = 'SET NAMES '. $dbc['charset'] . ' COLLATE '. $dbc['collation'] ;
 
-    $stmt = $conn->prepare($query);
-    $stmt->execute();
+    //PREPARE $stmt = $conn->prepare($query);
+    //PREPARE $stmt->execute();
+      
+      
+    //print 'DBM: makeConnection <br>';
+    //print 'name: ' . $name . '<br><br>';
+    //print 'db config: '; print_r2($dbc['driver']);
+      
+    $driver = $this->dbConfig['connections'][$name];
+    $factory = new ConnectionFactory($name, $driver);
+    
+
+    return $c = $factory->make($dbc, $name);
+      
+      
+    //print 'CCC :'; print_r2($c);
+      
+    
+
+      
+    
+    return $this->factory->make($config, $name);
 
   }
+    
+ protected function prepare(Connection $connection) {
+     
+     //L $connection->setFetchMode($this->app['config']['database.fetch']);
+     
+    $connection->setFetchMode( $this->dbConfig['fetch'] );
+         
+    //print 'Prepare EXIT: '; exit();
+     
+    return $connection;
+ }
 
   public function connection($name = null) {
 
-    $name = $name ?: $this->getDefaultConnectionName();
+    //$name = $name ?: $this->getDefaultConnectionName();
+    //print 'DatabaseManager::connection() <br>';
+      
+    $name = $name ?: $this->getDefaultConnection();
+      
+    if ( ! isset($this->connections[$name])) {
+        
+        $connection = $this->makeConnection($name);
+        $this->connections[$name] = $this->prepare($connection);
+    }
     return $this->connections[$name];
   }
-
-
-  public function getPdo() {
-    return $this->connection();
-  }
-
-  public function getDefaultConnectionName()
-  {
-
-    return  $this->defaultName;
-  }
-
-
-  //@see http://laravel.com/docs/4.2/database
-
-  public function select($query, $bindings=array()) {
     
-    //print 'X&gt; DB: select() <br>';
-    //print '. | ' . $query . ','. implode(',', $bindings) .'<br>';
-
-    $stmt =  $this->connection()->prepare($query);
-    $stmt->execute($bindings);
-
-    $stmt->setFetchMode(\PDO::FETCH_ASSOC);    // no constants yet
-
-    return $stmt->fetchAll();
-
+    
+  public function getDefaultConnection() {
+            
+      $config = app()->getConfiguration();     
+      return $config['database']['default'];
+  }
+    
+  public function setDefaultConnection($name) {
+      
+      //L $this->app['config']['database.default'] = $name;
   }
 
-
-  public function insert($query, $bindings = array()) {
-    if($this->debug === true) { print 'X&gt; DB: insert() <br>'; }
-
-    return $this->statement($query, $bindings); 
-  }
-
-  public function update($query, $bindings = array()) {
-    if($this->debug === true) { print 'X&gt; DB: update() <br>'; }
-
-    return $this->affectingStatement($query, $bindings); 
-  }
-
-
-  public function delete($query, $bindings = array()) {
-    if($this->debug === true) { print 'X&gt; DB: delete() <br>'; }
-
-    return $this->affectingStatement($query, $bindings);
-  }
-
-  public function statement($query, $bindings = array()) {
-    //print 'X&gt; DB: statement() <br>';
-    //print '. | ' . $query . ','. implode(',', $bindings) .'<br>';
-
-    $stmt =  $this->connection()->prepare($query);
-    $result = $stmt->execute($bindings); 
-
-  }
-
-
-  public function affectingStatement($query, $bindings = array()) {
-    //print 'X&gt; DB: affectingStatement() <br>';
-    //print '. | ' . $query . ','. implode(',', $bindings) .'<br>';
-
-    $stmt =  $this->connection()->prepare($query);
-    $stmt->execute($bindings); 
-
-    return $stmt->rowCount();
-  }
-
-
-  public function listen() {
-    if($this->debug === true) { print 'X&gt; DB: listen() <br>'; }
-    //no support
-  }
-
-  public function transaction() {
-    if($this->debug === true) { print 'X&gt; DB: transaction() <br>'; }
-  }
-
-  public function beginTransaction() {
-    if($this->debug === true) { print 'X&gt; DB: beginTransaction() <br>'; }
-  }
-
-  public function rollback() {
-    if($this->debug === true) { print 'X&gt; DB: rollback() <br>'; }
-  }
-
-  public function commit() {
-    if($this->debug === true) { print 'X&gt; DB: commit() <br>'; }
-  }
+    /**
+    *
+    * Podej metodo konekciji
+    * DB::select -> $this->connection()->select
+    */
+    
+	public function __call($method, $parameters)
+	{
+		//x: print 'DatabaseManager::__call() <br>';
+		//x: print '. | ' . get_class( $this->connection() ). ' <br>';
+		//x: print '. | method: '. $method .' , parameters: '. implode(',', $parameters) .' <br>';
+		
+		return call_user_func_array(array($this->connection(), $method), $parameters);
+	}
 
 }//class end

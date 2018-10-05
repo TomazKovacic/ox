@@ -18,12 +18,15 @@ class AuthManager {
 
 	protected $connection;
 
-	function __construct() {		
-		
+	function __construct() {
+
 		$app = app();
 		$this->request = $app->request;
 		$this->session = $app->request->getSession();
 		$this->cookies = $app->request->cookies;
+
+    $this-> key = $app->config['key'];
+
 		//$this->connection = DB::getPdo();
 
 	}
@@ -37,19 +40,48 @@ class AuthManager {
 		$cookie_token  = $this->cookies->get('token');
 		$session_token = $this->session->get('token');
 
-		//print 'cookie_token: '. $cookie_token . '<br>' . 'session_token: '. $session_token . '<br>' ;  exit();
+
+        //print 'cookie_token: <br>'. $cookie_token . '<br>' . 'session_token: <br>'. $session_token . '<br>' ;  //exit();
+
+        //$e =  $encryptor->encrypt($cookie_token);
+        //print 'cookie_token E : <br>'. $e . '<br>';
+
+        //$n =  $encryptor->decrypt($e);
+        //print 'cookie_token N : <br>'. $n . '<br>';
+        //print '<br>'. $session_token . '<br>' . $n . '<br><br>';
+
 
 		if( empty($cookie_token) || empty($session_token) ) { return false; }
 
 		if( $cookie_token == $session_token ) {
-
 			return true;
-			//return false;
 		}
+
+        //če še ni dekriptan:
+        $encryptor = new \ox\Encryption\Encrypter($this-> key);
+
+		if( $encryptor->decrypt( $cookie_token ) == $session_token ) {
+			return true;
+		}
+
+
+        /*
+        print 'Test 1:<br><br>';
+
+        print  $cookie_token . '<br>' . $session_token . '<br><br>' ;
+
+
+
+
+        print 'Test 2:<br><br>';
+
+        print  $encryptor->decrypt( $cookie_token ) . '<br>' . $session_token . '<br><br>' ;
+        */
+
 
 		return false;
 	}
-		
+
 
 	public function guest() {
 		return ! $this->check();
@@ -59,66 +91,87 @@ class AuthManager {
 
 	public function attempt(array $credentials = array(), $remember = false, $login = true) {
 
-		//print 'AuthManager::attempt() <br>';
-		//exit();
-
+		//print 'AuthManager::attempt() <br>';//exit();
 		//print 'AuthManager::attempt() credentials: '. implode(', ', $credentials) .'<br>';
 
 		$this->user = $this->retrieveByCredentials($credentials);
 		return $this->user;
 	}
 
-  
+
 
 	// ----------------
 
 
 	function retrieveByCredentials($credentials) {
 
-
-
-		$fieldnames = '';
 		$table = 'users'; //future: config ...
+
+		$app = app();
+		$config = $app->config;
+
+		if(isset($config['auth']['table'])) {
+			$table = $config['auth']['table'];
+		}
+
+		//print 'retrieveByCredentials. config: auth table: '. $table .'<br>';
+		//print 'c: '; print_r2( $config['auth'] );
+
+
+
+		//print_r2( $config );
+
 		$whereSegment = '';
+
+        $bindings = array();
 
 		foreach($credentials as $key=>$val) {
 
 			if ( $key != 'password') {
 
-
 				if($whereSegment) $whereSegment .= ' AND ';
-				$whereSegment .= $key . '=' . "'" . $val. "'" ;
+                $whereSegment .= $key . '= :' . $key;
+
+                $xkey = ':' . $key;
+                $bindings[$xkey] = $val;
 
 			}
 		}
 
-		//$sql = "SELECT $fieldnames FROM $table WHERE $whereSegment";
 		$sql = "SELECT * FROM $table WHERE $whereSegment";
 
-		//print 'AuthManager::retrieveByCredentials() sql = '. $sql .'<br>';
+        //dbg: print 'SQL:<br>';
+        //dbg: print $sql . '<br>';
+        //dbg: print 'Bindings: <br>';
+        //dbg: print_r2 ($bindings);
+        //dbg: exit();
 
-		$user = DB::select($sql);
+
+		$user = DB::select($sql, $bindings);
 
 
-		//dbg: print 'type test $user: ' . gettype($user) . ', value: /'.implode('#', $user) .'/<br><br>';
+		//dbg: print_r2($user); print '<br><br>';
+
+
+
+
 
 		if ( (!is_null($user)) && (!empty($user)) && (count($user)>0) ) {
 
 			$user = $user[0];  // take first
 
 
-			if( password_verify($credentials['password'], $user['password']) ) {
 
-				//
-				print 'AuthManager::retrieveByCredentials() password_verify SUCCESS <br>';
+			if( password_verify($credentials['password'], $user->password) ) {
 
+				//print 'AuthManager::retrieveByCredentials() password_verify SUCCESS <br>';
 				//print_r2($user);
 
 				$this->user = $user;
 
 				$this->login();
+				unset( $user->password);
 
-				unset( $user['password']);
 				return $user;
 
 			} else {
@@ -152,8 +205,8 @@ class AuthManager {
 		'iss' => $server_name,     //Issuer
 		'nbf' => $not_before,
 		'data' => array(
-		    'user_id'  => $this->user['id'],
-		    'username' => $this->user['username']
+		    'user_id'  => $this->user->id,
+		    'username' => $this->user->username
 		  )
 		);
 
@@ -174,7 +227,7 @@ class AuthManager {
 
 	function logout() {
 
-		
+
 		$this->session->remove('token');
 
 		Redirect::removeCookie('token');
@@ -187,6 +240,9 @@ class AuthManager {
 	function retrieveByID($id) { //not used yet
 
 		$id = intval($id);
+
+        //tmp, naj bo iz config.a
+        $table = 'user';
 		$sql = "SELECT * FROM $table WHERE id = ?";
 		$user = DB::select($sql, array($id));
 
@@ -197,18 +253,18 @@ class AuthManager {
 	// ----------------
 
 	function bcrypt_hash( $input_password ) {
-	
+
 		$options = array('cost' => 10);
 		$password = password_hash( $input_password, PASSWORD_BCRYPT, $options);
-		
+
 		return $password;
-	
+
 	}
 
 	// ----------------
 
 
-	public function user($id) { //not used
+	public function user($id = NULL) { //new usate 16.7.17
 
 		//print 'AuthManager::user() <br>';
 
@@ -217,6 +273,16 @@ class AuthManager {
 		if ( ! is_null($this->user) ) {
 			return $this->user;
 		}
+
+        //$id = $this->session->get($this->getName());
+
+        //print_r2($this->session->get('user'));
+
+        if ( ! is_null( $this->session->get('user') )) {
+
+            //print 'user session found. <br>';
+            return $this->session->get('user');
+        }
 
 
 		$user = null;

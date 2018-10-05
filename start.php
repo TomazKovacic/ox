@@ -17,35 +17,28 @@
 
   $config['database'] = require_once ROOT_DIR . '/app/config/database.php';
 
-
+  
   $app = new ox\Framework\Application();
 
   $app->setConfiguration($config);
   Facade::init();
   Facade::setApplication($app);
 
-  $aliases = array(
-      //'App'     => 'ox\Facades\App',
-      'Auth'     => 'ox\Facades\Auth',
-      'DB'       => 'ox\Facades\DB',
-      'Form'     => 'ox\Facades\Form',
-      'HTML'     => 'ox\Facades\HTML',
-      'Input'    => 'ox\Facades\Input',
-      'Lang'     => 'ox\Facades\Lang',
-      'Redirect' => 'ox\Facades\Redirect',
-      'Request'  => 'ox\Facades\Request',
-      'Route'    => 'ox\Facades\Route',
-      'Session'  => 'ox\Facades\Session',
-      'URL'      => 'ox\Facades\URL',
-      'View'     => 'ox\Facades\View'
-  );
+  $app->registerCoreContainerAliases();
 
-  foreach($aliases as $alias => $original) {
+  foreach($config['aliases'] as $alias => $original) {
 
     //print('alias: ' . $original . ' * ' . $alias . '<br>');
     class_alias( $original, $alias );
   }
   $app->registerCoreContainerAliases();
+  
+  //print_r2($app);
+  //print 'Stop at line ' . __LINE__ . ' in file ' . __FILE__; exit();
+
+
+  $providers = $config['providers'];
+  $app->loadProviders($providers);
 
   require ROOT_DIR . '/app/routes.php';
   

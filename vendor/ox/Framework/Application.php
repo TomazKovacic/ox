@@ -4,14 +4,17 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Session\Session;
 
-  class Application implements \ArrayAccess {
+use Symfony\Component\HttpKernel\HttpKernelInterface;
 
-    public $version = '0.04';
+  class Application implements \ArrayAccess, HttpKernelInterface {
+
+    public $version = '2.0';
     public $bindings = array();
     public $request;
     public $config = array();
 
     public $aliases = array();
+    protected $middlewares = array();
 
     // -----------------------------------------------------
 
@@ -23,7 +26,9 @@ use Symfony\Component\HttpFoundation\Session\Session;
 
       $session = new Session();
       $session->start();
-       $this->request->setSession($session);
+      $this->request->setSession($session);
+
+      $this->registerBaseMiddlewares();
     }
 
     // -----------------------------------------------------
@@ -34,19 +39,39 @@ use Symfony\Component\HttpFoundation\Session\Session;
 
     // -----------------------------------------------------
 
-    public function bindClass($name, $className) {
-      $this->bindings[$name] =  new $className;
-    }
+    //public function bindShared($name, $closure) {
+    //
+    //  $this->bind($name, $closure);
+    //}
 
     // -----------------------------------------------------
 
+    public function bindClass($name, $className) {
+      // old$this->bindings[$name] =  new $className;
+
+      //klic service providerja
+      //$this->bindings[$name] =  $this->register($className);
+      // ?? $this->register($className);
+    }
+
+    // -----------------------------------------------------
+    public function register($provider) {
+
+      //print 'registering ... provider <br>';
+
+      $r = $provider->register();
+
+      //dd($this);
+    }
+
+    // -----------------------------------------------------
     // ArrayAccess, mandarory
 
     public function offsetExists($offset) {
         return array_key_exists($offset, $this->bindings);
     }
 
-    public function offsetGet($offset) {
+    public function offsetGet($offset) { //print_r2(short_trace(debug_backtrace(),1 ));
         return $this->bindings[$offset];
     }
 
@@ -74,59 +99,114 @@ use Symfony\Component\HttpFoundation\Session\Session;
 
       $aliases = array(
 
-        'Auth'    => 'ox\Auth\AuthManager',
-        'DB'      => 'ox\Database\DatabaseManager',
+        //'Auth'      => 'ox\Auth\AuthManager',
+        //'DB'        => 'ox\Database\DatabaseManager',
+        //'encrypter' => 'ox\Encryption\Encrypter',
         //'Form'    => 'ox\Html\FormBuilder',
         //'HTML'    => 'ox\Html\HtmlBuilder',
         //'Input'   => 'ox\Classes\Input',
         //'Lang'    => 'ox\Classes\Lang',
         //'Request' => 'ox\Classes\Request',
-        'Redirect' => '\ox\Routing\Redirector',
-        'Route'   => '\ox\Routing\Router',
+        //'Redirect' => 'ox\Routing\Redirector',
+        //'Route'    => 'ox\Routing\Router',
         //'Session' => 'ox\Classes\Session',
         //'URL'     => 'ox\Classes\URL',
-        'View'    => 'ox\View\View'
+        //'View'     => 'ox\View\View'
       );
 
       foreach ($aliases as $key => $alias) {
-
-        //print '[C] binding class ' . $alias . ' to key ' . $key . '<br>';
-        $this->bindClass($key, $alias);
+        $this->alias($key, $alias);
       }
 
+    }
+    // -----------------------------------------------------
+
+    public function alias($abstract, $alias)
+  	{
+  		$this->aliases[$alias] = $abstract;
+  	}
+    // -----------------------------------------------------
+
+    public function loadProviders($providers) {
+
+      foreach($providers as $provider) {
+
+        //print 'loading provider ' . $provider . '<br>';
+        $this->register($this->createProvider($provider));
+      }
+
+    }
+    // -----------------------------------------------------
+
+    public function createProvider($provider) {
+      return new $provider($this);
     }
 
     // -----------------------------------------------------
 
     private function dispatch(Request $request) {
 
-      
-      return $this['Route']->dispatch($request); //returrns Response object
+
+      return $this['router']->dispatch($request); //returrns Response object
     }
 
     // -----------------------------------------------------
     //
 
-    public function getStackedClient() {
+    protected function getStackedClient() {
 
-      $client = new \ox\stack\builder();
+      $client = new \Stack\Builder();
 
-      //$client->push('Illuminate\Cookie\Guard', $this['encrypter']);
-      //$client->push('Illuminate\Cookie\Queue', $this['cookie']);
-      //$client->push('Illuminate\Session\Middleware', $this['session']);
+      //print 'app: getStackedClient TEST: middlewares: <br>'; print_r2($this->middlewares);
 
+
+      $client->push('ox\Cookie\Guard', $this['encrypter']);
+      $client->push('ox\Cookie\Queue', $this['cookie']);
+      //
+      $client->push('ox\Session\Middleware', $this['session']); //tmp, gre samo skozi
+
+
+      $this->mergeCustomMiddlewares($client);
 
 
       return $client;
     }
 
+
+
+    // -----------------------------------------------------
+
+  protected function mergeCustomMiddlewares(\Stack\Builder $stack)
+  {
+    foreach ($this->middlewares as $middleware)
+    {
+      list($class, $parameters) = array_values($middleware);
+
+      array_unshift($parameters, $class);
+
+      call_user_func_array(array($stack, 'push'), $parameters);
+    }
+  }
+    // -----------------------------------------------------
+
+  protected function registerBaseMiddlewares()
+  {
+    $this->middleware('ox\Middleware\FrameGuard');
+  }
+    // -----------------------------------------------------
+
+  public function middleware($class, array $parameters = array()) {
+    $this->middlewares[] = compact('class', 'parameters');
+
+    return $this;
+  }
     // -----------------------------------------------------
 
     /**
     * handle je previdan za vklučutev middlaware dodatkov, nato v dispatch
     */
 
-	  public function handle(Request $request) {
+	  public function handle(Request $request, $type = self::MASTER_REQUEST, $catch = true) {
 
       return $response = $this->dispatch($request);
   	}
@@ -139,37 +219,15 @@ use Symfony\Component\HttpFoundation\Session\Session;
               $request = Request::createFromGlobals();
       }
 
-      //original, plain
-      $response = $this->handle($request);
+  	  $stack = $this->getStackedClient();
+  	  $kernel = $stack->resolve($this);
 
-      //stack
+  	  $response = $kernel->handle($request);
+  	  $response->send();
 
-      //STACK $stack = $this->getStackedClient();
-      //STACK $response = $stack->handle($request);
-
-      //print 'App:run(), back with $response <br>';
-      //print_r2_adv($response);
-      //print htmlentities($response); //exit();
-
-      if( get_class($response) == 'Symfony\Component\HttpFoundation\Response' ) {
-        $response->send();
-
-      } elseif( get_class($response) == 'Symfony\Component\HttpFoundation\RedirectResponse' ) {
-        //print $response;
-        //print htmlentities($response);
-        //$response = new \Symfony\Component\HttpFoundation\Response($response );
-        $response->send();
-
-      } elseif( is_string($response) ) {
-          print $response;
+      if ($kernel instanceof TerminableInterface) {
+          $kernel->terminate($request, $response);
       }
-
-
-
-      //print '<br><br>:'; print_r2_adv($this);
-      
-
-
     }
     // -----------------------------------------------------
 
